@@ -1,1 +1,138 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('/assets/fonts/Outfit-VariableFont_wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root {
+  --bg: #0c0c10;
+  --s1: #12121a;
+  --s2: #181820;
+  --s3: #1e1e28;
+  --s4: #242432;
+  --b: #28283a;
+  --b2: #32324a;
+  --a: #5b8af0;
+  --ag: #4cbb82;
+  --ao: #f0934a;
+  --ar: #e05c7a;
+  --ap: #9b6cf5;
+  --at: #38bdf8;
+  --t: #dde0f0;
+  --t2: #8890b0;
+  --t3: #4a5070;
+  --r: 10px;
+  --sh: 0 4px 30px rgba(0, 0, 0, .55);
+
+  /* Backgrounds */
+  --color-background: #0c0c10;
+
+  /* Surfaces */
+  --color-surface-1: #12121a;
+  --color-surface-2: #181820;
+  --color-surface-3: #1e1e28;
+  --color-surface-4: #242432;
+
+  /* Borders */
+  --color-border: #28283a;
+  --color-border-hover: #32324a;
+
+  /* Brand */
+  --color-primary: #5b8af0;
+
+  /* Semantic colors */
+  --color-success: #4cbb82;
+  --color-warning: #f0934a;
+  --color-danger: #e05c7a;
+  --color-info: #38bdf8;
+
+  /* Optional */
+  --color-purple: #9b6cf5;
+
+  /* Text */
+  --color-text-primary: #dde0f0;
+  --color-text-secondary: #8890b0;
+  --color-text-muted: #4a5070;
+
+  /* Effects */
+  --border-radius: 10px;
+  --box-shadow: 0 4px 30px rgba(0, 0, 0, .55);
+
+  /* Sizes */
+  --header: 60px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: 100%;
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--t);
+  overflow: hidden;
+  font-size: 14px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: .8rem;
+  font-weight: 600;
+  border: none;
+  transition: all .12s;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.btn-sm,
+.btn--small {
+  padding: 5px 10px;
+  font-size: .75rem;
+}
+
+.btn-xs,
+.btn--extra-small {
+  padding: 3px 8px;
+  font-size: .7rem;
+}
+
+.btn-p,
+.btn--primary {
+  background: var(--a);
+  color: #fff;
+}
+
+.btn-p:hover,
+.btn--primary:hover {
+  background: #6e98f5;
+  transform: translateY(-1px);
+}
+
+.btn-g,
+.btn--secondary {
+  background: var(--s3);
+  color: var(--t2);
+  border: 1px solid var(--b);
+}
+
+.btn-g:hover,
+.btn--secondary:hover {
+  background: var(--b2);
+  color: var(--t);
+}
+
+.btn-ic,
+.btn--icon {
+  padding: 5px;
+  border-radius: 6px;
+}
