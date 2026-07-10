@@ -1,0 +1,29 @@
+/* Sidebar styles */
+
+.sidebar {
+  height: calc(100vh - var(--header));
+  width: 210px;
+  min-width: 210px;
+  background: var(--s1);
+  border-right: 1px solid var(--b);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.logo {
+  padding: 8px 15px;
+}
+
+.logo__name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--a);
+  letter-spacing: -.5px;
+}
+
+.logo__subtitle {
+  font-size: .65rem;
+  color: var(--t3);
+  margin-top: 1px;
+}
