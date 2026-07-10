@@ -1,0 +1,22 @@
+<div class="entity-item">
+  <div class="entity-item__avatar">
+    {{ initial }}
+  </div>
+
+  <div class="entity-item__content">
+    <h3 class="entity-item__title">
+      <a class="entity-item__link">
+        {{ title }}
+      </a>
+    </h3>
+
+    <p class="entity-item__subtitle">
+      <span>{{ subtitle }}</span>
+
+      @if (description) {
+        <span class="entity-item__separator">·</span>
+        {{ description }}
+      }
+    </p>
+  </div>
+</div>
