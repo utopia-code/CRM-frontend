@@ -1,0 +1,27 @@
+:host {
+  padding: 10px 12px;
+  border-top: 1px solid var(--b);
+}
+
+.sidebar-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.export-remind {
+  background: rgba(91, 138, 240, .1);
+  border: 1px solid rgba(91, 138, 240, .2);
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-size: .72rem;
+  color: var(--a);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.foot-row {
+  display: flex;
+  gap: 5px;
+}
