@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Fonts */
+
 @font-face {
   font-family: 'Outfit';
   src: url('/assets/fonts/Outfit-VariableFont_wght.woff2') format('woff2');
@@ -80,6 +82,8 @@ body {
   font-size: 14px;
 }
 
+/* Buttons */
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -135,4 +139,38 @@ body {
 .btn--icon {
   padding: 5px;
   border-radius: 6px;
+}
+
+/* Table */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .8rem;
+  overflow-x: auto;
+
+  /* common with card */
+
+  background: var(--s1);
+  border: 1px solid var(--b);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+
+table thead th {
+  padding: 9px 12px;
+  text-align: left;
+  color: var(--t3);
+  font-weight: 600;
+  font-size: .67rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  border-bottom: 1px solid var(--b);
+}
+
+table tbody td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--b);
+  color: var(--t);
+  vertical-align: middle;
 }

@@ -1,0 +1,55 @@
+<!-- <p>clients works!</p>
+
+<p>Total: {{ clientsList.length }}</p> -->
+
+<!-- @for (client of clientsList; track client.id) {
+
+  <pre>
+    {{ client | json }}
+  </pre>
+
+} -->
+
+<table>
+  <thead>
+    <tr>
+      <th>Cliente / Contacto</th>
+      <th>Email</th>
+      <th>Teléfono</th>
+      <th>Estado</th>
+      <th>Actividade</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @for (client of clientsList; track client.id) {
+      @for (contact of client.contacts; track contact.id) {
+        <tr>
+          <td>
+            <app-entity-item
+              [title]="client.organization"
+              [subtitle]="contact.name"
+              [description]="contact.role"
+            >
+            </app-entity-item>
+          </td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.telephone }}</td>
+          <td>
+            <app-badge
+              [text]="client.status | clientStatus"
+              [variant]="clientStatusBadge[client.status]"
+            >
+            </app-badge>
+          </td>
+          <td>
+            <div class="badgets-list">
+              <app-badge [text]="client.interactionsCount + ' int.'" variant="bg"> </app-badge>
+              <app-badge [text]="client.tasksCount + ' tar.'" variant="notice"> </app-badge>
+            </div>
+          </td>
+        </tr>
+      }
+    }
+  </tbody>
+</table>
