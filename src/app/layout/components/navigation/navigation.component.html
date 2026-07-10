@@ -1,0 +1,26 @@
+<nav class="navigation" aria-label="Navegación principal">
+  @for (section of sections; track section) {
+    <section class="navigation__section">
+      <h2 class="navigation__title">
+        {{ section }}
+      </h2>
+
+      <ul class="navigation__list">
+        @for (item of getItemsBySection(section); track item.route) {
+          <li class="navigation__item">
+            <a
+              class="navigation__link"
+              [routerLink]="item.route"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+            >
+              <app-icon [name]="item.icon"></app-icon>
+
+              <span>{{ item.label }}</span>
+            </a>
+          </li>
+        }
+      </ul>
+    </section>
+  }
+</nav>

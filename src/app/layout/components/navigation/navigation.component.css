@@ -1,0 +1,46 @@
+:host {
+  flex: 1;
+  padding: 8px 8px;
+  overflow-y: auto;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.navigation__title {
+  font-size: .62rem;
+  font-weight: 700;
+  color: var(--t3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 9px 8px 3px;
+}
+
+.navigation__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 9px;
+  border-radius: 7px;
+  border: none;
+  background: none;
+  color: var(--t2);
+  font-size: .8rem;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  text-decoration: none;
+  transition: all .12s;
+}
+
+.navigation__link.active {
+  background: rgba(91, 138, 240, .14);
+  color: var(--a);
+}
+
+.navigation__link app-icon {
+  --icon-size: 15px;
+}
