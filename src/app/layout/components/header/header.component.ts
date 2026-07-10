@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { IconComponent } from '../../../shared/icon/icon.component';
+import { IconComponent } from '../../../shared/components/icon/icon.component';
 import { HeaderService } from './services/header.service';
 
 @Component({

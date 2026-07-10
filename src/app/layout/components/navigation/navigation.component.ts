@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IconComponent } from '../../../shared/icon/icon.component';
+import { IconComponent } from '../../../shared/components/icon/icon.component';
 
 interface NavItem {
   label: string;
