@@ -1,0 +1,90 @@
+:host {
+  width: 100%;
+}
+
+.app-header {
+  background: var(--s1);
+  border-bottom: 1px solid var(--b);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  height: var(--header);
+}
+
+.app-header__title h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.app-header__actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.actions app-icon {
+  --icon-size: 15px;
+}
+
+.notifications-menu {
+  position: relative;
+}
+
+.notification-button {
+  font-size: 1.1rem;
+  position: relative
+}
+
+.notification-button__icon {}
+
+.notification-button__badge {
+  display: none;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--ar);
+  color: rgb(255, 255, 255);
+  border-radius: 20px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  min-width: 16px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.notification-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0px;
+  width: 340px;
+  background: var(--s1);
+  border: 1px solid var(--b);
+  border-radius: 12px;
+  box-shadow: var(--sh);
+  z-index: 500;
+  overflow: hidden;
+}
+
+.notification-panel__header {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--b);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notification-panel__title {
+  font-size: 0.85rem;
+  font-weight: 700
+}
+
+.notification-panel__content {
+  max-height: 380px;
+  overflow-y: auto
+}
+
+.notification-panel__empty {}

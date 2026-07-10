@@ -1,0 +1,41 @@
+<header class="app-header">
+  <div class="app-header__title">
+    <h1>{{ config().title }}</h1>
+  </div>
+  <div class="app-header__actions">
+    <div class="actions">
+      @for (action of config().actions; track action.label) {
+        <button (click)="action.action()" class="btn btn--primary">
+          <app-icon name="{{ action.icon }}"></app-icon>
+          {{ action.label }}
+        </button>
+      }
+    </div>
+    <div class="notification-menu">
+      <button
+        class="btn btn--secondary btn--icon notification-button"
+        id="notification-button"
+        type="button"
+        title="Avisos"
+        aria-label="Avisos"
+      >
+        <span class="notification-button__icon">🔔</span>
+        <span class="notification-button__badge"> 7 </span>
+      </button>
+
+      <div class="notification-panel">
+        <div class="notification-panel__header">
+          <span class="notification-panel__title"> 🔔 Avisos </span>
+
+          <button class="btn btn--small" type="button">Limpar todos</button>
+        </div>
+
+        <div class="notification-panel__content">
+          <div class="notification-panel__empty">🔕 Sen avisos pendentes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="user-menu"></div>
+  </div>
+</header>
