@@ -1,4 +1,4 @@
-import { ClientStatus } from "../enums/clientStatus.enum";
+import { ClientStatus } from '../enums/clientStatus.enum';
 
 export interface ClientListContact {
   id: number;
@@ -13,7 +13,7 @@ export interface ClientList {
   organization: string;
   status: ClientStatus;
 
-  contacts: ClientListContact[];
+  contacts?: ClientListContact[];
 
   interactionsCount: number;
   tasksCount: number;
