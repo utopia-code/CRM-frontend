@@ -1,0 +1,11 @@
+<app-modal [open]="open()" [title]="title()" (closed)="close()">
+  <p>
+    {{ message() }}
+  </p>
+
+  <div class="modal-footer__actions" modal-footer>
+    <button type="button" class="btn btn--secondary" (click)="close()">Cancelar</button>
+
+    <button type="button" class="btn btn--delete" (click)="confirm()">Eliminar</button>
+  </div>
+</app-modal>
