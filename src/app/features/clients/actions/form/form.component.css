@@ -1,0 +1,15 @@
+.form__card app-icon {
+  --icon-size: 15px;
+}
+
+.form__card--button {
+  grid-column: 1 / -1;
+  text-align: right;
+}
+
+.form__actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 11px;
+}

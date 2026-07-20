@@ -1,0 +1,109 @@
+<form class="form" [formGroup]="form" (ngSubmit)="save()">
+  <div class="form__group">
+    <label class="form__label" for="organization"> Organización * </label>
+
+    <input id="organization" class="form__input" type="text" formControlName="organization" />
+  </div>
+
+  <div class="form__group">
+    <label class="form__label" for="subject"> Asunto </label>
+
+    <input id="subject" class="form__input" type="text" formControlName="subject" />
+  </div>
+
+  <div class="form__group">
+    <label class="form__label" for="status"> Estado </label>
+
+    <select id="status" class="form__select" formControlName="status">
+      <option value="POTENTIAL">Potencial</option>
+
+      <option value="ACTIVE">Activo</option>
+
+      <option value="INACTIVE">Inactivo</option>
+    </select>
+  </div>
+
+  <div class="form__group form__group--full">
+    <label class="form__label" for="notes"> Notas </label>
+
+    <textarea id="notes" class="form__textarea" formControlName="notes"> </textarea>
+  </div>
+
+  <section class="form__section">
+    <h3 class="form__title">Contactos</h3>
+
+    <div formArrayName="contacts">
+      @for (contact of contacts.controls; track contact) {
+        <div class="form__card" [formGroupName]="$index">
+          <input type="hidden" formControlName="id" />
+
+          <div class="form__group">
+            <label class="form__label" [for]="'contact-name-' + $index"> Nombre * </label>
+
+            <input
+              [id]="'contact-name-' + $index"
+              class="form__input"
+              type="text"
+              formControlName="name"
+            />
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" [for]="'contact-role-' + $index"> Cargo </label>
+
+            <input
+              [id]="'contact-role-' + $index"
+              class="form__input"
+              type="text"
+              formControlName="role"
+            />
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" [for]="'contact-email-' + $index"> Email </label>
+
+            <input
+              [id]="'contact-email-' + $index"
+              class="form__input"
+              type="email"
+              formControlName="email"
+            />
+          </div>
+
+          <div class="form__group">
+            <label class="form__label" [for]="'contact-telephone-' + $index"> Teléfono </label>
+
+            <input
+              [id]="'contact-telephone-' + $index"
+              class="form__input"
+              type="tel"
+              formControlName="telephone"
+            />
+          </div>
+
+          <div class="form__card--button">
+            @if (contacts.length > 1) {
+              <button
+                type="button"
+                class="btn btn--delete btn--small btn--icon"
+                (click)="removeContact($index)"
+              >
+                <app-icon [name]="'delete'"></app-icon>
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <button type="button" class="btn btn--primary" (click)="addContact()">Añadir contacto</button>
+  </section>
+
+  <div class="form__actions">
+    <button type="button" class="btn btn--secondary" (click)="cancelled.emit()">Cancelar</button>
+
+    <button type="submit" class="btn btn--primary">
+      {{ client() ? 'Actualizar' : 'Guardar' }}
+    </button>
+  </div>
+</form>
