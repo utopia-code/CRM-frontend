@@ -1,0 +1,110 @@
+@if (client) {
+  <div class="client-detail">
+    <aside class="client-sidebar">
+      <div class="client-sidebar__header">
+        <div class="client-avatar">
+          {{ client.organization.charAt(0).toUpperCase() }}
+        </div>
+
+        <div>
+          <div class="client-sidebar__title">
+            {{ client.organization }}
+          </div>
+        </div>
+      </div>
+
+      <div class="client-sidebar__body">
+        <div class="client-info-row">
+          @for (contact of client.contacts; track contact.id) {
+            <div class="contact-card">
+              <strong>{{ contact.name }}</strong>
+
+              <div>{{ contact.role }}</div>
+
+              <div>{{ contact.telephone }}</div>
+
+              <div>{{ contact.email }}</div>
+            </div>
+          }
+
+          <div class="client-sidebar__subtitle">
+            <!-- {{ client.contacts?.[0]?.name }} -->
+          </div>
+          <!-- {{ client.contacts?.[0]?.role || 'Sin cargo' }} -->
+        </div>
+
+        <!-- <div class="client-info-row">📞 {{ client.contacts?.[0]?.telephone || '-' }}</div> -->
+
+        <!-- <div class="client-info-row">✉️ {{ client.contacts?.[0]?.email || '-' }}</div> -->
+
+        <div class="client-info-row">
+          <app-badge
+            [text]="client.status | clientStatus"
+            [variant]="clientStatusBadge[client.status]"
+          >
+          </app-badge>
+        </div>
+      </div>
+
+      <div class="client-sidebar__footer">
+        <h4>Resumen</h4>
+
+        <!-- <div class="client-info-row">
+          📞 {{ client.interactionsCount ?? 0 }} interacciones
+        </div>
+
+        <div class="client-info-row">
+          ✅ {{ client.tasksCount ?? 0 }} tareas
+        </div> -->
+      </div>
+    </aside>
+
+    <main class="client-main">
+      <nav class="ctabs">
+        <!-- <button class="ctab on">
+          Interacciones ({{ client.interactions?.length ?? 0 }})
+        </button>
+
+        <button class="ctab">
+          Tareas ({{ client.tasks?.length ?? 0 }})
+        </button> -->
+
+        <button class="ctab">Información</button>
+      </nav>
+
+      <section class="ctab-content">
+        <!-- @if ((client.interactions?.length ?? 0) === 0) {
+
+          <div class="empty">
+            No hay interacciones registradas.
+          </div>
+
+        } @else {
+
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Asunto</th>
+                <th>Notas</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              @for (interaction of client.interactions; track interaction.id) {
+                <tr>
+                  <td>{{ interaction.date }}</td>
+                  <td>{{ interaction.type }}</td>
+                  <td>{{ interaction.subject }}</td>
+                  <td>{{ interaction.notes }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+
+        } -->
+      </section>
+    </main>
+  </div>
+}
