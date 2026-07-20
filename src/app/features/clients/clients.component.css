@@ -1,4 +1,9 @@
-.badgets-list {
+.badgets-list,
+.actions-list {
   display: flex;
   gap: 2px;
+}
+
+.actions-list app-icon {
+  --icon-size: 15px;
 }
