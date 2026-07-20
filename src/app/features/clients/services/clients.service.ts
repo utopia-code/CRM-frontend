@@ -1,21 +1,42 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ClientList } from '../models/client-list.dto';
+import { CreateClientDto } from '../dtos/create-client.dto';
+import { UpdateClientDto } from '../dtos/update-client.dto';
+import { ClientList } from '../models/client-list.model';
+import { Client } from '../models/client.model';
+
+export interface DeleteResponse {
+  message: string;
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientsService {
-
   private http = inject(HttpClient);
-  private api = 'http://localhost:3000/api/clients/list';
+  private api = 'http://localhost:3000/api/clients';
 
   getClientsList(): Observable<ClientList[]> {
-    return this.http.get<ClientList[]>(this.api);
+    return this.http.get<ClientList[]>(this.api + '/list');
   }
 
-  create(customer: ClientList): Observable<ClientList> {
-    return this.http.post<ClientList>(this.api, customer);
+  // CREATE CLIENT
+  createClient(client: CreateClientDto): Observable<Client> {
+    return this.http.post<Client>(this.api, client);
+  }
+
+  // EDIT CLIENT
+  updateClient(id: number, clientData: UpdateClientDto): Observable<Client> {
+    return this.http.patch<Client>(`${this.api}/${id}`, clientData);
+  }
+
+  // DELETE CLIENT
+  removeClient(id: number): Observable<DeleteResponse> {
+    return this.http.delete<DeleteResponse>(`${this.api}/${id}`);
+  }
+
+  getClient(id: number): Observable<Client> {
+    return this.http.get<Client>(`${this.api}/${id}`);
   }
 }
