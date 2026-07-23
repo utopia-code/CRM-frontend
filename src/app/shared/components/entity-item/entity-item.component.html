@@ -1,22 +1,27 @@
 <div class="entity-item">
   <div class="entity-item__avatar">
-    {{ initial }}
+    {{ initial() }}
   </div>
 
   <div class="entity-item__content">
-    <h3 class="entity-item__title">
-      <a class="entity-item__link">
-        {{ title }}
-      </a>
+    <h3 class="entity-item__title" [class.entity-item__title--small]="titleVariant() === 'small'">
+      {{ title() }}
     </h3>
 
-    <p class="entity-item__subtitle">
-      <span>{{ subtitle }}</span>
+    @if (subtitle() || description()) {
+      <p class="entity-item__subtitle">
+        @if (subtitle()) {
+          <span>{{ subtitle() }}</span>
+        }
 
-      @if (description) {
-        <span class="entity-item__separator">·</span>
-        {{ description }}
-      }
-    </p>
+        @if (subtitle() && description()) {
+          <span class="entity-item__separator">·</span>
+        }
+
+        @if (description()) {
+          <span>{{ description() }}</span>
+        }
+      </p>
+    }
   </div>
 </div>

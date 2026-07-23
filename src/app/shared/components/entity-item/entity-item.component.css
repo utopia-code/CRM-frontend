@@ -9,6 +9,7 @@
   height: 2.125rem;
   border-radius: 0.5rem;
   font-size: 0.85rem;
+  color: var(--t);
   background: linear-gradient(135deg, var(--a), var(--ap));
   display: flex;
   justify-content: center;
@@ -25,6 +26,17 @@
 
 .entity-item__title {
   margin: 0;
+  font-weight: 600;
+  color: var(--a);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.entity-item__title--small {
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--t);
+  text-decoration: none;
 }
 
 .entity-item__link {

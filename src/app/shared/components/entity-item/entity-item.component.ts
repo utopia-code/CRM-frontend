@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'app-entity-item',
@@ -9,16 +9,12 @@ import { Component, Input } from '@angular/core';
   styleUrl: './entity-item.component.css',
 })
 export class EntityItemComponent {
-  @Input({ required: true })
-  title!: string;
+  title = input.required<string>();
 
-  @Input()
-  subtitle = '';
+  titleVariant = input<'default' | 'small'>('default');
 
-  @Input()
-  description = '';
+  subtitle = input('');
+  description = input('');
 
-  get initial(): string {
-    return this.title.charAt(0).toUpperCase();
-  }
+  initial = computed(() => this.title().charAt(0).toUpperCase());
 }
