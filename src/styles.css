@@ -159,13 +159,6 @@ table {
   border-collapse: collapse;
   font-size: .8rem;
   overflow-x: auto;
-
-  /* common with card */
-
-  background: var(--s1);
-  border: 1px solid var(--b);
-  border-radius: var(--r);
-  overflow: hidden;
 }
 
 table thead th {
@@ -185,6 +178,25 @@ table tbody td {
   color: var(--t);
   vertical-align: middle;
 }
+
+
+/* Table Variants */
+
+.basic-table {
+  background: var(--s1);
+  border: 1px solid var(--b);
+  border-radius: var(--r);
+}
+
+.minimal-table {
+  background: none;
+  border: none
+}
+
+.minimal-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
 
 /* Form */
 
