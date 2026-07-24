@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 import { CreateClientDto } from '../dtos/create-client.dto';
 import { UpdateClientDto } from '../dtos/update-client.dto';
 import { ClientList } from '../models/client-list.model';
@@ -15,10 +16,10 @@ export interface DeleteResponse {
 })
 export class ClientsService {
   private http = inject(HttpClient);
-  private api = 'http://localhost:3000/api/clients';
+  private api = `${environment.api}/clients`;
 
   getClientsList(): Observable<ClientList[]> {
-    return this.http.get<ClientList[]>(this.api + '/list');
+    return this.http.get<ClientList[]>(`${this.api}/list`);
   }
 
   // CREATE CLIENT
