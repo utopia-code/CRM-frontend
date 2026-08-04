@@ -21,7 +21,19 @@
   gap: 6px;
 }
 
+.export-remind app-icon {
+  --icon-size: 15px;
+}
+
 .foot-row {
   display: flex;
   gap: 5px;
+}
+
+.foot-row .btn {
+  flex: 1;
+}
+
+.foot-row .btn app-icon {
+  --icon-size: 10px;
 }

@@ -1,21 +1,21 @@
 <div class="sidebar-foot">
-  <div id="exportRemind" style="display: flex" class="export-remind">
-    <svg
-      width="12"
-      height="12"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-    >
-      <circle cx="12" cy="12" r="10"></circle>
-      <line x1="12" y1="8" x2="12" y2="12"></line>
-    </svg>
+  <div id="exportRemind" class="export-remind">
+    <app-icon name="info"></app-icon>
     Exportar datos hoxe
   </div>
   <div class="foot-row">
-    <button class="btn btn--secondary btn--small" style="flex: 1">⬇ Exportar</button>
-    <button class="btn btn--secondary btn--small" style="flex: 1">⬆ Importar</button>
-    <input type="file" id="impFile" accept=".json" style="display: none" />
+    <button class="btn btn--secondary btn--small" (click)="exportBackup()">
+      <app-icon name="export"></app-icon> Exportar
+    </button>
+
+    <button
+      class="btn btn--secondary btn--small"
+      [disabled]="!selectedFile"
+      (click)="fileInput.click()"
+    >
+      <app-icon name="import"></app-icon> Importar
+    </button>
+
+    <input #fileInput type="file" accept=".json" hidden (change)="onFileSelected($event)" />
   </div>
 </div>
