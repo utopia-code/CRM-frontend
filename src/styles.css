@@ -154,11 +154,22 @@ body {
 
 /* Table */
 
+.table-container {
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: .8rem;
   overflow-x: auto;
+}
+
+table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 table thead th {
@@ -186,6 +197,10 @@ table tbody td {
   background: var(--s1);
   border: 1px solid var(--b);
   border-radius: var(--r);
+}
+
+.basic-table thead {
+  background: var(--s1);
 }
 
 .minimal-table {

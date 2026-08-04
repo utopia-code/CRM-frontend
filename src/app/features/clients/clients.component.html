@@ -10,62 +10,70 @@
 
 } -->
 
-<table class="basic-table">
-  <thead>
-    <tr>
-      <th>Cliente / Contacto</th>
-      <th>Email</th>
-      <th>Teléfono</th>
-      <th>Estado</th>
-      <th>Actividade</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    @for (client of clientsList; track client.id) {
-      <!-- @for (contact of client.contacts; track contact.id) { -->
+<div class="table-container">
+  <table class="basic-table">
+    <thead>
       <tr>
-        <td>
-          <a class="entity-link" [routerLink]="['/clients', client.id]">
-            <app-entity-item
-              [title]="client.organization"
-              [subtitle]="getMainContact(client)?.name ?? ''"
-              [description]="getMainContact(client)?.role ?? ''"
-            >
-            </app-entity-item>
-          </a>
-        </td>
-        <td>{{ getMainContact(client)?.email }}</td>
-        <td>{{ getMainContact(client)?.telephone }}</td>
-        <td>
-          <app-badge
-            [text]="client.status | clientStatus"
-            [variant]="clientStatusBadge[client.status]"
-          >
-          </app-badge>
-        </td>
-        <td>
-          <div class="badgets-list">
-            <app-badge [text]="client.interactionsCount + ' int.'" variant="bg"> </app-badge>
-            <app-badge [text]="client.tasksCount + ' tar.'" variant="notice"> </app-badge>
-          </div>
-        </td>
-        <td>
-          <div class="actions-list">
-            <button class="btn btn--secondary btn--small btn--icon" (click)="editClient(client.id)">
-              <app-icon [name]="'edit'"></app-icon>
-            </button>
-            <button class="btn btn--delete btn--small btn--icon" (click)="openDeleteModal(client)">
-              <app-icon [name]="'delete'"></app-icon>
-            </button>
-          </div>
-        </td>
+        <th>Cliente / Contacto</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Estado</th>
+        <th>Actividade</th>
+        <th></th>
       </tr>
-      <!-- } -->
-    }
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      @for (client of clientsList; track client.id) {
+        <!-- @for (contact of client.contacts; track contact.id) { -->
+        <tr>
+          <td>
+            <a class="entity-link" [routerLink]="['/clients', client.id]">
+              <app-entity-item
+                [title]="client.organization"
+                [subtitle]="getMainContact(client)?.name ?? ''"
+                [description]="getMainContact(client)?.role ?? ''"
+              >
+              </app-entity-item>
+            </a>
+          </td>
+          <td>{{ getMainContact(client)?.email }}</td>
+          <td>{{ getMainContact(client)?.telephone }}</td>
+          <td>
+            <app-badge
+              [text]="client.status | clientStatus"
+              [variant]="clientStatusBadge[client.status]"
+            >
+            </app-badge>
+          </td>
+          <td>
+            <div class="badgets-list">
+              <app-badge [text]="client.interactionsCount + ' int.'" variant="bg"> </app-badge>
+              <app-badge [text]="client.tasksCount + ' tar.'" variant="notice"> </app-badge>
+            </div>
+          </td>
+          <td>
+            <div class="actions-list">
+              <button
+                class="btn btn--secondary btn--small btn--icon"
+                (click)="editClient(client.id)"
+              >
+                <app-icon [name]="'edit'"></app-icon>
+              </button>
+              <button
+                class="btn btn--delete btn--small btn--icon"
+                (click)="openDeleteModal(client)"
+              >
+                <app-icon [name]="'delete'"></app-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <!-- } -->
+      }
+    </tbody>
+  </table>
+</div>
 
 <app-modal
   [open]="showClientModal"
