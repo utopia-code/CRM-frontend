@@ -2,10 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-
-export interface RestoreBackupResponse {
-  success: boolean;
-}
+import { RestoreBackupResponse } from '../modals/restore-backup-response.modal';
 
 @Injectable({
   providedIn: 'root',

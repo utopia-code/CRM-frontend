@@ -2,14 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { DeleteResponse } from '../../../core/modals/delete-response';
 import { CreateClientDto } from '../dtos/create-client.dto';
 import { UpdateClientDto } from '../dtos/update-client.dto';
 import { ClientList } from '../models/client-list.model';
 import { Client } from '../models/client.model';
-
-export interface DeleteResponse {
-  message: string;
-}
 
 @Injectable({
   providedIn: 'root',
