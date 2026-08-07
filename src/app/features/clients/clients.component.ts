@@ -101,7 +101,6 @@ export class ClientsComponent implements OnInit {
 
   closeModal() {
     this.showClientModal = false;
-    this.showClientModal = false;
   }
 
   onClientSaved() {
