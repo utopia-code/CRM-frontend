@@ -1,0 +1,48 @@
+.item {
+  display: flex;
+  align-items: center;
+  column-gap: .5rem;
+}
+
+.item__content {
+  cursor: pointer;
+}
+
+.item__title {
+  font-size: .9rem;
+  font-weight: 400;
+}
+
+.item__subtitle {
+  font-size: 0.72rem;
+  color: var(--t2);
+}
+
+.item__property--warning {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.item__property--warning app-icon {
+  --icon-size: 12px;
+}
+
+.done .item__content,
+.done .item__property {
+  filter: grayscale(1);
+  opacity: .4;
+}
+
+.actions-list {
+  display: flex;
+  gap: 2px;
+}
+
+.actions-list app-icon {
+  --icon-size: 15px;
+}
+
+.navigation-tabs {
+  margin-bottom: 20px;
+}

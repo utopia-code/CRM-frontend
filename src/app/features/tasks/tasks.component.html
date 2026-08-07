@@ -1,1 +1,181 @@
-<p>tasks works!</p>
+<nav class="navigation-tabs">
+  <button
+    class="navigation-tab__btn"
+    [class.active]="activeTab === 'all'"
+    (click)="changeTab('all')"
+  >
+    Todas
+  </button>
+
+  <button
+    class="navigation-tab__btn"
+    [class.active]="activeTab === 'active'"
+    (click)="changeTab('active')"
+  >
+    Pendentes
+  </button>
+
+  <button
+    class="navigation-tab__btn"
+    [class.active]="activeTab === 'completed'"
+    (click)="changeTab('completed')"
+  >
+    Completadas
+  </button>
+</nav>
+
+<div class="table-container">
+  <table class="basic-table">
+    <thead>
+      <tr>
+        <th>Tarefa / Cliente</th>
+        <th (click)="changeSort('priority')" class="sortable">
+          <span>Prioridade</span>
+          <span class="sort__icons">
+            <span
+              class="sort__icon"
+              [class.active]="sortField === 'priority' && sortDirection === 'asc'"
+            >
+              <app-icon name="sort-up"></app-icon>
+            </span>
+            <span
+              class="sort__icon"
+              [class.active]="sortField === 'priority' && sortDirection === 'desc'"
+            >
+              <app-icon name="sort-down"></app-icon>
+            </span>
+          </span>
+        </th>
+        <th (click)="changeSort('endDate')" class="sortable">
+          <span>Data límite</span>
+          <span class="sort__icons">
+            <span
+              class="sort__icon"
+              [class.active]="sortField === 'endDate' && sortDirection === 'asc'"
+            >
+              <app-icon name="sort-up"></app-icon>
+            </span>
+            <span
+              class="sort__icon"
+              [class.active]="sortField === 'endDate' && sortDirection === 'desc'"
+            >
+              <app-icon name="sort-down"></app-icon>
+            </span>
+          </span>
+        </th>
+        <th (click)="changeSort('reminderDate')" class="sortable">
+          <span>Aviso</span>
+          <span class="sort__icons">
+            <span
+              class="sort__icon"
+              [class.active]="sortField === 'reminderDate' && sortDirection === 'asc'"
+            >
+              <app-icon name="sort-up"></app-icon>
+            </span>
+            <span
+              class="sort__icon"
+              [class.active]="sortField === 'reminderDate' && sortDirection === 'desc'"
+            >
+              <app-icon name="sort-down"></app-icon>
+            </span>
+          </span>
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (task of sortedTasks; track task.id) {
+        <tr [class.done]="task.status === 'DONE'">
+          <td>
+            <div class="item">
+              <div class="item__status">
+                <input
+                  type="checkbox"
+                  [checked]="task.status === 'DONE'"
+                  (change)="toggleDone(task)"
+                  (click)="$event.stopPropagation()"
+                />
+              </div>
+
+              <div
+                class="item__content"
+                [ngClass]="{
+                  done: task.status === 'DONE',
+                }"
+                (click)="openTaskDetail(task.id)"
+                role="button"
+                tabindex="0"
+                (keydown.enter)="openTaskDetail(task.id)"
+              >
+                <h3 class="item__title">{{ task.title }}</h3>
+                <p class="item__subtitle">{{ task.client?.organization }}</p>
+              </div>
+            </div>
+          </td>
+          <td class="item__property">
+            <app-badge
+              [text]="task.priority | taskPriority"
+              [variant]="taskPriorityBadge[task.priority]"
+            ></app-badge>
+          </td>
+          <td
+            class="item__property"
+            [title]="task.endDate | date: 'EEEE d MMMM yyyy, HH:mm' : '' : 'gl-ES'"
+            [ngClass]="task.endDate | dueDateStatus"
+          >
+            @if ((task.endDate | dueDateStatus) === 'due-date--overdue') {
+              <div class="item__property--warning">
+                <app-icon name="warning"></app-icon>
+                {{ task.endDate | dueDate }}
+              </div>
+            } @else {
+              {{ task.endDate | dueDate }}
+            }
+          </td>
+          <td class="item__property">
+            {{ task.reminderDate | reminderDate }}
+          </td>
+          <td>
+            <div class="actions-list">
+              <button class="btn btn--secondary btn--small btn--icon" (click)="editTask(task.id)">
+                <app-icon [name]="'edit'"></app-icon>
+              </button>
+              <button class="btn btn--delete btn--small btn--icon" (click)="openDeleteModal(task)">
+                <app-icon [name]="'delete'"></app-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<app-modal
+  [open]="showDetailModal"
+  [title]="selectedDetailTask?.title ? 'Tarefa: ' + selectedDetailTask?.title : 'Tarefa'"
+  (closed)="closeDetailModal()"
+>
+  <app-detail [task]="selectedDetailTask"></app-detail>
+</app-modal>
+
+<app-modal
+  [open]="showFormModal"
+  [title]="selectedTask ? 'Editar tarefa' : 'Nueva tarefa'"
+  (closed)="closeModal()"
+>
+  <!-- <app-form
+    [client]="selectedClient"
+    (saved)="onClientSaved()"
+    (cancelled)="closeModal()"
+  ></app-form> -->
+</app-modal>
+
+<app-confirm-modal
+  [open]="showDeleteModal"
+  title="Eliminar task"
+  [message]="'¿Seguro que quieres eliminar a tarefa: ' + selectedDeleteTask?.title + '?'"
+  (confirmed)="confirmDeleteTask()"
+  (closed)="closeDeleteModal()"
+/>
