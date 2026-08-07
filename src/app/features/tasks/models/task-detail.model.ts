@@ -12,7 +12,7 @@ export interface TaskDetail {
     organization: string;
   };
 
-  schedule?: {
+  scheduleEntry?: {
     endDate?: string;
     reminderDate?: string;
   };
@@ -21,6 +21,6 @@ export interface TaskDetail {
     total: number;
     calls: number;
     emails: number;
-    visits: number;
+    meetings: number;
   };
 }

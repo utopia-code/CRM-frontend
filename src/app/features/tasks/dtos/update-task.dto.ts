@@ -1,8 +1,8 @@
 import { TaskPriority } from '../enums/task-priority.enum';
 import { TaskStatus } from '../enums/task-status.enum';
 
-export interface CreateTaskDto {
-  title: string;
+export interface UpdateTaskDto {
+  title?: string;
   description?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
