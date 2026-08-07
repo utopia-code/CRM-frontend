@@ -1,0 +1,62 @@
+.interaction-card {
+  font-size: .78rem;
+}
+
+.interaction-card:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.interaction-card__item {
+  display: flex;
+  align-items: center;
+}
+
+.interaction-card__data {
+  line-height: 2;
+}
+
+.interaction-card__icon {
+  color: var(--t2);
+  margin-right: 5px;
+}
+
+.interaction-card__icon app-icon {
+  --icon-size: .78rem;
+}
+
+.detail__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail__section:not(:last-child) {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--b);
+}
+
+.detail__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.detail__label {
+  color: var(--t3);
+  font-weight: 600;
+  font-size: .67rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding-bottom: .3rem;
+}
+
+.item__property--warning {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.item__property--warning app-icon {
+  --icon-size: 12px;
+}

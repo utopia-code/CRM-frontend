@@ -1,0 +1,107 @@
+<!-- <pre>{{ task() | json }}</pre> -->
+
+<div class="detail__card">
+  @if (task()?.client?.organization; as organization) {
+    <div class="detail__section">
+      <div class="detail__label">Cliente</div>
+      <div class="detail__data">{{ organization }}</div>
+    </div>
+  }
+
+  @if (task()?.description; as description) {
+    <div class="detail__section">
+      <div class="detail__label">Notas</div>
+      <div class="detail__data">{{ description }}</div>
+    </div>
+  }
+
+  <div class="detail__section">
+    <div class="detail__grid">
+      <div class="detail__grid-item">
+        <div class="detail__label">Columna Kanban</div>
+        <div class="detail__data">
+          @if (task()?.status; as status) {
+            {{ status | taskStatus }}
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+
+      <div class="detail__grid-item">
+        <div class="detail__label">Prioridade</div>
+        <div class="detail__data">
+          @if (task()?.priority; as priority) {
+            <app-badge
+              [text]="priority | taskPriority"
+              [variant]="taskPriorityBadge[priority]"
+            ></app-badge>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail__section">
+    <div class="detail__grid">
+      <div class="detail__grid-item">
+        <div class="detail__label">Data límite</div>
+        <div class="detail__data">
+          @if (task()?.scheduleEntry?.endDate; as endDate) {
+            <div [ngClass]="endDate | dueDateStatus">
+              @if ((endDate | dueDateStatus) === 'due-date--overdue') {
+                <div class="item__property--warning">
+                  <app-icon name="warning"></app-icon>
+                  {{ endDate | dueDate }}
+                </div>
+              } @else {
+                {{ endDate | dueDate }}
+              }
+            </div>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+      <div class="detail__grid-item">
+        <div class="detail__label">Aviso</div>
+        <div class="detail__data">
+          @if (task()?.scheduleEntry?.reminderDate; as reminderDate) {
+            <p>{{ reminderDate | reminderDate }}</p>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail__section">
+    <div class="detail__label"></div>
+    <div class="detail__data"></div>
+  </div>
+</div>
+
+@if ((task()?.interactions?.total ?? 0) > 0) {
+  <div class="detail__section">
+    <div class="detail__label">Resumo interaccións</div>
+    <div class="detail__data interaction-card">
+      <div class="interaction-card__item">
+        <span class="interaction-card__icon"><app-icon [name]="'tel'"></app-icon></span>
+        <span class="interaction-card__data">{{ task()?.interactions?.calls }} chamadas</span>
+      </div>
+
+      <div class="interaction-card__item">
+        <span class="interaction-card__icon"><app-icon [name]="'email'"></app-icon></span>
+        <span class="interaction-card__data">{{ task()?.interactions?.emails }} emails</span>
+      </div>
+
+      <div class="interaction-card__item">
+        <span class="interaction-card__icon"><app-icon [name]="'visit'"></app-icon></span>
+        <span class="interaction-card__data">{{ task()?.interactions?.meetings }} visitas</span>
+      </div>
+    </div>
+  </div>
+}
