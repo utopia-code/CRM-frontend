@@ -89,13 +89,10 @@ export class CreateFormComponent {
   private createContact(contact?: Contact): ContactForm {
     return new FormGroup({
       id: new FormControl<number | null>(contact?.id ?? null),
-      name: new FormControl(contact?.name ?? '', {
-        nonNullable: true,
-        validators: Validators.required,
-      }),
-      role: new FormControl(contact?.role ?? '', { nonNullable: true }),
-      email: new FormControl(contact?.email ?? '', { nonNullable: true }),
-      telephone: new FormControl(contact?.telephone ?? '', { nonNullable: true }),
+      name: this.fb.control(contact?.name ?? '', Validators.required),
+      role: this.fb.control(contact?.role ?? ''),
+      email: this.fb.control(contact?.email ?? ''),
+      telephone: this.fb.control(contact?.telephone ?? ''),
     });
   }
 
@@ -117,12 +114,17 @@ export class CreateFormComponent {
 
     const contacts = raw.contacts.map(({ id, ...contact }) => ({
       ...contact,
+      role: contact.role.trim() || null,
+      email: contact.email.trim() || null,
+      telephone: contact.telephone.trim() || null,
       ...(id != null ? { id } : {}),
     }));
 
     if (this.client()) {
       const dto: UpdateClientDto = {
         ...raw,
+        subject: raw.subject.trim() || null,
+        notes: raw.notes.trim() || null,
         contacts,
       };
 
@@ -133,6 +135,8 @@ export class CreateFormComponent {
     } else {
       const dto: CreateClientDto = {
         ...raw,
+        subject: raw.subject.trim() || null,
+        notes: raw.notes.trim() || null,
         contacts,
       };
 
