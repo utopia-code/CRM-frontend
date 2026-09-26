@@ -1,1 +1,76 @@
-<p>form works!</p>
+<form class="form" [formGroup]="form" (ngSubmit)="save()">
+  <div class="form__group form__group--full">
+    <label for="title" class="form__label">Título *</label>
+
+    <input id="title" type="text" class="form__input" formControlName="title" />
+
+    @if (form.controls.title.touched && form.controls.title.invalid) {
+      <small class="form-error"> El título es obligatorio. </small>
+    }
+  </div>
+
+  <div class="form__group">
+    <label for="priority" class="form__label">Prioridade</label>
+
+    <select formControlName="priority" id="priority" class="form__select">
+      <option [ngValue]="TaskPriority.HIGH">Alta</option>
+
+      <option [ngValue]="TaskPriority.MEDIUM">Media</option>
+
+      <option [ngValue]="TaskPriority.LOW">Baixa</option>
+    </select>
+  </div>
+
+  <div class="form__group">
+    <label for="status" class="form__label">Columna Kanban</label>
+
+    <select formControlName="status" id="status" class="form__select">
+      <option [ngValue]="TaskStatus.PENDING">Pendente</option>
+
+      <option [ngValue]="TaskStatus.ACTIVE">En curso</option>
+
+      <option [ngValue]="TaskStatus.REVIEW">Revisión</option>
+
+      <option [ngValue]="TaskStatus.DONE">Completado</option>
+    </select>
+  </div>
+
+  <div class="form__group form__group--full">
+    <label for="clientId" class="form__label">Cliente</label>
+
+    <select formControlName="clientId" id="clientId" class="form__select">
+      <option [ngValue]="null">Sin cliente</option>
+
+      @for (client of clients; track client.id) {
+        <option [ngValue]="client.id">{{ client.organization }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="form__group form__group--full">
+    <label for="description" class="form__label">Notas</label>
+
+    <textarea formControlName="description" id="description" class="form__textarea"></textarea>
+  </div>
+
+  <div class="form__group">
+    <label for="endDate" class="form__label">Data límite</label>
+
+    <input id="endDate" type="date" class="form__input" formControlName="endDate" />
+  </div>
+
+  <div class="form__group">
+    <label for="reminderDate" class="form__label">Aviso</label>
+
+    <input
+      id="reminderDate"
+      type="datetime-local"
+      class="form__input"
+      formControlName="reminderDate"
+    />
+  </div>
+
+  <button type="submit" class="btn btn--primary">
+    {{ task() ? 'Actualizar' : 'Guardar' }}
+  </button>
+</form>

@@ -165,11 +165,7 @@
   [title]="selectedTask ? 'Editar tarefa' : 'Nueva tarefa'"
   (closed)="closeModal()"
 >
-  <!-- <app-form
-    [client]="selectedClient"
-    (saved)="onClientSaved()"
-    (cancelled)="closeModal()"
-  ></app-form> -->
+  <app-form [task]="selectedTask" (saved)="onTaskSaved()" (cancelled)="closeModal()"></app-form>
 </app-modal>
 
 <app-confirm-modal
