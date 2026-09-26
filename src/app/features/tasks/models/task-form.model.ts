@@ -1,14 +1,14 @@
 import { TaskPriority } from '../enums/task-priority.enum';
 import { TaskStatus } from '../enums/task-status.enum';
 
-export interface TaskList {
-  id: number;
+export interface TaskForm {
+  id?: number;
   title: string;
+  description?: string;
   status: TaskStatus;
   priority: TaskPriority;
-  client: {
-    organization: string;
-  } | null;
-  endDate: Date | null;
-  reminderDate: Date | null;
+  clientId?: number;
+
+  endDate?: string;
+  reminderDate?: string;
 }

@@ -4,23 +4,23 @@ import { TaskStatus } from '../enums/task-status.enum';
 export interface TaskDetail {
   id: number;
   title: string;
-  description?: string;
+  description: string | null;
   status: TaskStatus;
   priority: TaskPriority;
 
   client: {
     organization: string;
-  };
+  } | null;
 
-  scheduleEntry?: {
-    endDate?: string;
-    reminderDate?: string;
-  };
+  scheduleEntry: {
+    endDate: string | null;
+    reminderDate: string | null;
+  } | null;
 
   interactions: {
     total: number;
     calls: number;
     emails: number;
     meetings: number;
-  };
+  } | null;
 }
