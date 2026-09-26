@@ -7,6 +7,7 @@ import { CreateClientDto } from '../dtos/create-client.dto';
 import { UpdateClientDto } from '../dtos/update-client.dto';
 import { ClientList } from '../models/client-list.model';
 import { Client } from '../models/client.model';
+import { ClientName } from '../models/clients-name.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,14 @@ export class ClientsService {
   private http = inject(HttpClient);
   private api = `${environment.api}/clients`;
 
+  // GET LIST OF CLIENTS
   getClientsList(): Observable<ClientList[]> {
     return this.http.get<ClientList[]>(`${this.api}/list`);
+  }
+
+  // GET LIST OF CLIENTS BY NAME
+  getClientsName(): Observable<ClientName[]> {
+    return this.http.get<ClientName[]>(`${this.api}/organization-list`);
   }
 
   // CREATE CLIENT
