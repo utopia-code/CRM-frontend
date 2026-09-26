@@ -160,6 +160,10 @@ body {
   max-height: calc(100vh - 100px);
 }
 
+.navigation-tabs+.table-container {
+  max-height: calc(100vh - 160px);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
