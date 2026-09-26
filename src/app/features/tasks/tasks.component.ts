@@ -11,6 +11,7 @@ import { DueDateStatusPipe } from '../../shared/pipes/due-date-status.pipe';
 import { DueDatePipe } from '../../shared/pipes/due-date.pipe';
 import { ReminderDatePipe } from '../../shared/pipes/reminder-date.pipe';
 import { TaskPriorityPipe } from '../../shared/pipes/task-priority.pipe';
+import { FormComponent } from './actions/form/form.component';
 import { DetailComponent } from './detail/detail.component';
 import { TaskPriority } from './enums/task-priority.enum';
 import { TaskStatus } from './enums/task-status.enum';
@@ -36,6 +37,7 @@ type SortDirection = 'asc' | 'desc';
     ModalComponent,
     ConfirmModalComponent,
     DetailComponent,
+    FormComponent,
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
@@ -59,10 +61,13 @@ export class TasksComponent implements OnInit {
   /* Set colors of badge status */
   readonly taskPriorityBadge = TASK_PRIORITY_BADGE;
 
+  /* Save Task status before change to DONE */
+  private previousStatuses = new Map<number, TaskStatus>();
+
   /* Tab active: all as init */
   activeTab: TaskTab = 'all';
 
-  readonly activeStatus = [TaskStatus.PENDING, TaskStatus.ACTIVE, TaskStatus.REVIEW];
+  readonly activeStatuses = [TaskStatus.PENDING, TaskStatus.ACTIVE, TaskStatus.REVIEW];
 
   /* Sort filters and directions */
 
@@ -91,17 +96,16 @@ export class TasksComponent implements OnInit {
         },
       ],
     });
-    this.loadTasksList();
-  }
 
-  loadTasksList(): void {
-    this.tasksService.getTasksList().subscribe({
-      next: (data: TaskList[]) => {
-        console.log('DATA: ', data);
-        this.tasksList = data;
+    this.tasksService.tasks$.subscribe({
+      next: (tasks) => {
+        this.tasksList = tasks;
       },
+    });
+
+    this.tasksService.getTasksList().subscribe({
       error: (error: HttpErrorResponse) => {
-        console.log(error);
+        console.error(error);
       },
     });
   }
@@ -114,7 +118,7 @@ export class TasksComponent implements OnInit {
   get filteredTasks(): TaskList[] {
     switch (this.activeTab) {
       case 'active':
-        return this.tasksList.filter((task) => this.activeStatus.includes(task.status));
+        return this.tasksList.filter((task) => this.activeStatuses.includes(task.status));
 
       case 'completed':
         return this.tasksList.filter((task) => task.status === TaskStatus.DONE);
@@ -179,10 +183,28 @@ export class TasksComponent implements OnInit {
   }
 
   /* Change status Task to DONE */
-  toggleDone(task: Task) {
+  toggleDone(task: TaskList): void {
+    const previousStatus =
+      task.status !== TaskStatus.DONE
+        ? task.status
+        : (this.previousStatuses.get(task.id) ?? TaskStatus.PENDING);
+
+    const newStatus = task.status === TaskStatus.DONE ? previousStatus : TaskStatus.DONE;
+
     if (task.status !== TaskStatus.DONE) {
-      task.status = TaskStatus.DONE;
+      this.previousStatuses.set(task.id, task.status);
     }
+
+    this.tasksService.updateTaskStatus(task.id, newStatus).subscribe({
+      next: () => {
+        if (newStatus !== TaskStatus.DONE) {
+          this.previousStatuses.delete(task.id);
+        }
+      },
+      error: (error) => {
+        console.error('Error updating task status:', error);
+      },
+    });
   }
 
   /* Edit task */
@@ -206,6 +228,10 @@ export class TasksComponent implements OnInit {
 
   closeModal() {
     this.showFormModal = false;
+  }
+
+  onTaskSaved(): void {
+    this.closeModal();
   }
 
   /* Open detail modal */
@@ -242,9 +268,6 @@ export class TasksComponent implements OnInit {
 
     this.tasksService.removeTask(taskId).subscribe({
       next: () => {
-        // Update list
-        this.tasksList = this.tasksList.filter((item) => item.id !== taskId);
-
         this.closeDeleteModal();
       },
       error: console.error,
