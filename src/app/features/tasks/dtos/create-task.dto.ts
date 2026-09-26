@@ -3,11 +3,11 @@ import { TaskStatus } from '../enums/task-status.enum';
 
 export interface CreateTaskDto {
   title: string;
-  description?: string;
+  description?: string | null;
   status?: TaskStatus;
   priority?: TaskPriority;
-  clientId?: number;
+  clientId?: number | null;
 
-  endDate?: Date;
-  reminderDate?: Date;
+  endDate?: string | null;
+  reminderDate?: string | null;
 }
