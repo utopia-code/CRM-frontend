@@ -169,51 +169,90 @@
 
           @case ('tasks') {
             <!-- @if ((client.interactions?.length ?? 0) === 0) { -->
-            @if (!client) {
+            @if (tasksList.length === 0) {
               <div class="empty">Non hai tarefas rexistradas.</div>
             } @else {
               <table class="minimal-table">
                 <thead>
                   <tr>
                     <th>Tarefa</th>
-                    <th>Data límite</th>
                     <th>Prioridade</th>
+                    <th>Data límite</th>
                     <th>Aviso</th>
                     <th></th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  <!-- @for (interaction of client.interactions; track interaction.id) {
-                    <tr>
-                      <td>{{ interaction.date }}</td>
-                      <td>{{ interaction.type }}</td>
-                      <td>{{ interaction.subject }}</td>
-                      <td>{{ interaction.notes }}</td>
+                  @for (task of tasksList; track task.id) {
+                    <tr [class.done]="task.status === 'DONE'">
+                      <td>
+                        <div class="item">
+                          <div class="item__status">
+                            <input
+                              type="checkbox"
+                              [checked]="task.status === 'DONE'"
+                              (change)="toggleDone(task)"
+                              (click)="$event.stopPropagation()"
+                            />
+                          </div>
+
+                          <div
+                            class="item__content"
+                            [ngClass]="{
+                              done: task.status === 'DONE',
+                            }"
+                            (click)="openTaskDetail(task.id)"
+                            role="button"
+                            tabindex="0"
+                            (keydown.enter)="openTaskDetail(task.id)"
+                          >
+                            <h3 class="item__title">{{ task.title }}</h3>
+                            <p class="item__subtitle">{{ task.client?.organization }}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="item__property">
+                        <app-badge
+                          [text]="task.priority | taskPriority"
+                          [variant]="taskPriorityBadge[task.priority]"
+                        ></app-badge>
+                      </td>
+                      <td
+                        class="item__property"
+                        [title]="task.endDate | date: 'EEEE d MMMM yyyy, HH:mm' : '' : 'gl-ES'"
+                        [ngClass]="task.endDate | dueDateStatus"
+                      >
+                        @if ((task.endDate | dueDateStatus) === 'due-date--overdue') {
+                          <div class="item__property--warning">
+                            <app-icon name="warning"></app-icon>
+                            {{ task.endDate | dueDate }}
+                          </div>
+                        } @else {
+                          {{ task.endDate | dueDate }}
+                        }
+                      </td>
+                      <td class="item__property">
+                        {{ task.reminderDate | reminderDate }}
+                      </td>
+                      <td>
+                        <div class="actions-list">
+                          <button
+                            class="btn btn--secondary btn--small btn--icon"
+                            (click)="editTask(task.id)"
+                          >
+                            <app-icon [name]="'edit'"></app-icon>
+                          </button>
+                          <button
+                            class="btn btn--delete btn--small btn--icon"
+                            (click)="openDeleteModal(task)"
+                          >
+                            <app-icon [name]="'delete'"></app-icon>
+                          </button>
+                        </div>
+                      </td>
                     </tr>
-                  } -->
-                  <tr>
-                    <td>Consulta Comunic - ARTE</td>
-                    <td>4/3/2026</td>
-                    <td>alta</td>
-                    <td>⏰ 02 de mar. de 2026, 13:18</td>
-                    <td>
-                      <div class="actions-list">
-                        <button
-                          class="btn btn--secondary btn--small btn--icon"
-                          (click)="editTask(client.id)"
-                        >
-                          <app-icon [name]="'edit'"></app-icon>
-                        </button>
-                        <button
-                          class="btn btn--delete btn--small btn--icon"
-                          (click)="openDeleteTaskModal()"
-                        >
-                          <app-icon [name]="'delete'"></app-icon>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                  }
                 </tbody>
               </table>
             }
@@ -275,3 +314,27 @@
     </main>
   </div>
 }
+
+<app-modal
+  [open]="showDetailModal"
+  [title]="selectedDetailTask?.title ? 'Tarefa: ' + selectedDetailTask?.title : 'Tarefa'"
+  (closed)="closeDetailModal()"
+>
+  <app-detail [task]="selectedDetailTask"></app-detail>
+</app-modal>
+
+<app-modal
+  [open]="showFormModal"
+  [title]="selectedTask ? 'Editar tarefa' : 'Nueva tarefa'"
+  (closed)="closeModal()"
+>
+  <app-form [task]="selectedTask" (saved)="onTaskSaved()" (cancelled)="closeModal()"></app-form>
+</app-modal>
+
+<app-confirm-modal
+  [open]="showDeleteModal"
+  title="Eliminar task"
+  [message]="'¿Seguro que quieres eliminar a tarefa: ' + selectedDeleteTask?.title + '?'"
+  (confirmed)="confirmDeleteTask()"
+  (closed)="closeDeleteModal()"
+/>

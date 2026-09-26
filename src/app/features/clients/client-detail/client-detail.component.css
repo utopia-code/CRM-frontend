@@ -91,3 +91,7 @@
 .actions-list app-icon {
   --icon-size: 15px;
 }
+
+.item__property--warning app-icon {
+  --icon-size: 12px;
+}
