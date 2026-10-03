@@ -8,8 +8,11 @@
       <div class="client-sidebar__body">
         <div class="client-info">
           <h4 class="client-info__title">Información</h4>
+          @if (client.subject) {
+            <p class="client-info__notes">Asunto: {{ client.subject }}</p>
+          }
           @if (client.notes) {
-            <p class="client-info__notes">{{ client.notes }}</p>
+            <p class="client-info__notes">Notas: {{ client.notes }}</p>
           }
           <app-badge
             [text]="client.status | clientStatus"
@@ -58,24 +61,28 @@
           <div class="interaction-card">
             <div class="interaction-card__item">
               <span class="contact-card__icon"><app-icon [name]="'tel'"></app-icon></span>
-              <span class="contact-card__data">0 chamadas</span>
+              <span class="contact-card__data">{{ client.summary.calls }} chamadas</span>
             </div>
 
             <div class="interaction-card__item">
               <span class="contact-card__icon"><app-icon [name]="'email'"></app-icon></span>
-              <span class="contact-card__data">0 emails</span>
+              <span class="contact-card__data">{{ client.summary.emails }} emails</span>
             </div>
             <div class="interaction-card__item">
               <span class="contact-card__icon"><app-icon [name]="'visit'"></app-icon></span>
-              <span class="contact-card__data">0 visitas</span>
+              <span class="contact-card__data">{{ client.summary.meetings }} visitas</span>
             </div>
             <div class="interaction-card__item">
               <span class="contact-card__icon"><app-icon [name]="'task'"></app-icon></span>
-              <span class="contact-card__data">0 tarefas feitas</span>
+              <span class="contact-card__data"
+                >{{ client.summary.completedTasks }} tarefas feitas</span
+              >
             </div>
             <div class="interaction-card__item">
               <span class="contact-card__icon"><app-icon [name]="'pendingTask'"></app-icon></span>
-              <span class="contact-card__data">0 tarefas pendentes</span>
+              <span class="contact-card__data"
+                >{{ client.summary.pendingTasks }} tarefas pendentes</span
+              >
             </div>
           </div>
         </div>
@@ -98,7 +105,7 @@
           [class.active]="activeTab === 'tasks'"
           (click)="changeTab('tasks')"
         >
-          Tarefas (0)
+          Tarefas ({{ tasksList.length }})
         </button>
 
         <button

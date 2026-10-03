@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { HeaderService } from '../../../layout/components/header/services/header.service';
 import { BadgeComponent } from '../../../shared/components/badge/badge.component';
 import { EntityItemComponent } from '../../../shared/components/entity-item/entity-item.component';
@@ -22,7 +23,7 @@ import { TaskDetail } from '../../tasks/models/task-detail.model';
 import { TaskList } from '../../tasks/models/task-list.model';
 import { Task } from '../../tasks/models/task.model';
 import { TasksService } from '../../tasks/services/tasks.service';
-import { Client } from '../models/client.model';
+import { ClientDetail } from '../models/client-detail.model';
 import { ClientsService } from '../services/clients.service';
 
 type ClientTab = 'interactions' | 'tasks' | 'proposals';
@@ -54,7 +55,9 @@ export class ClientDetailComponent implements OnInit {
   private header = inject(HeaderService);
   private router = inject(Router);
 
-  client?: Client;
+  private subscriptions = new Subscription();
+
+  client?: ClientDetail;
   activeTab: ClientTab = 'interactions';
 
   /* Set colors of badge status */
@@ -84,6 +87,7 @@ export class ClientDetailComponent implements OnInit {
 
       this.clientsService.getClient(id).subscribe({
         next: (client) => {
+          console.log('CLIENT:', client);
           this.client = client;
 
           /* Load tasks of this client */
@@ -103,6 +107,14 @@ export class ClientDetailComponent implements OnInit {
         error: console.error,
       });
     });
+
+    this.subscriptions.add(
+      this.tasksService.tasks$.subscribe((tasks) => {
+        this.tasksList = tasks;
+
+        this.updateTaskSummary(tasks);
+      }),
+    );
   }
 
   changeTab(tab: ClientTab): void {
@@ -116,13 +128,28 @@ export class ClientDetailComponent implements OnInit {
   loadTasks(idClient: number): void {
     this.tasksService.getTasksListByClient(idClient).subscribe({
       next: (data: TaskList[]) => {
-        console.log('DATA: ', data);
         this.tasksList = data;
       },
       error: (error: HttpErrorResponse) => {
         console.log(error);
       },
     });
+  }
+
+  /* Update Task Summary if Task Status change */
+  private updateTaskSummary(tasks: TaskList[]): void {
+    if (!this.client) {
+      return;
+    }
+
+    this.client = {
+      ...this.client,
+      summary: {
+        ...this.client.summary,
+        completedTasks: tasks.filter((task) => task.status === TaskStatus.DONE).length,
+        pendingTasks: tasks.filter((task) => task.status !== TaskStatus.DONE).length,
+      },
+    };
   }
 
   /* Change status Task to DONE */

@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { DeleteResponse } from '../../../core/modals/delete-response';
 import { CreateClientDto } from '../dtos/create-client.dto';
 import { UpdateClientDto } from '../dtos/update-client.dto';
+import { ClientDetail } from '../models/client-detail.model';
 import { ClientList } from '../models/client-list.model';
 import { Client } from '../models/client.model';
 import { ClientName } from '../models/clients-name.model';
@@ -41,7 +42,7 @@ export class ClientsService {
     return this.http.delete<DeleteResponse>(`${this.api}/${id}`);
   }
 
-  getClient(id: number): Observable<Client> {
-    return this.http.get<Client>(`${this.api}/${id}`);
+  getClient(id: number): Observable<ClientDetail> {
+    return this.http.get<ClientDetail>(`${this.api}/${id}`);
   }
 }
