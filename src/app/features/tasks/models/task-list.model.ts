@@ -4,6 +4,7 @@ import { TaskStatus } from '../enums/task-status.enum';
 export interface TaskList {
   id: number;
   title: string;
+  description: string | null;
   status: TaskStatus;
   priority: TaskPriority;
   client: {
