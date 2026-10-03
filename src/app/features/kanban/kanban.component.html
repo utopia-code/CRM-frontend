@@ -1,1 +1,126 @@
-<p>kanban works!</p>
+<div class="kanban">
+  @for (column of kanbanColumns; track column.status) {
+    <div class="kanban__column">
+      <div class="kanban__header">
+        <div class="kanban__title">
+          <div class="kanban__status" [class]="column.class"></div>
+          {{ column.title }}
+          <span class="kanban__count">
+            {{ getTasksByStatus(column.status).length }}
+          </span>
+        </div>
+      </div>
+
+      <div class="kanban__cards">
+        @for (task of getTasksByStatus(column.status); track task.id) {
+          <div
+            class="kanban__card"
+            (click)="editTask(task.id)"
+            role="button"
+            tabindex="0"
+            (keydown.enter)="editTask(task.id)"
+          >
+            <button
+              type="button"
+              class="kanban__card-delete"
+              (click)="$event.stopPropagation(); openDeleteModal(task)"
+              aria-label="Eliminar tarea"
+              (keydown.enter)="$event.stopPropagation()"
+            >
+              ✕
+            </button>
+
+            <div class="kanban__card-title">
+              {{ task.title }}
+            </div>
+
+            @if (task.description) {
+              <div class="kanban__card-description">
+                {{ task.description }}
+              </div>
+            }
+
+            @if (task.client) {
+              <div class="kanban__card-client">
+                <app-badge [text]="task.client.organization" variant="bg"> </app-badge>
+              </div>
+            }
+
+            <div class="kanban__card-footer">
+              <span></span>
+
+              <div class="kanban__card-datetime">
+                @if (task.endDate) {
+                  <span>
+                    {{ task.endDate | date: 'd/M/yyyy' }}
+                  </span>
+                }
+                @if (task.reminderDate) {
+                  <span class="kanban__card-alarm">
+                    ⏰
+                    {{ task.reminderDate | date: 'd/M/yyyy HH:mm' }}
+                  </span>
+                }
+              </div>
+            </div>
+
+            <div
+              class="kanban__card-actions"
+              role="button"
+              tabindex="0"
+              (click)="$event.stopPropagation()"
+              aria-label="activar botones"
+              (keydown.enter)="$event.stopPropagation()"
+            >
+              @for (status of getAvailableStatuses(task.status); track status) {
+                <button
+                  type="button"
+                  class="btn btn-g btn-xs"
+                  [class.btn--pending]="status === TaskStatus.PENDING"
+                  [class.btn--active]="status === TaskStatus.ACTIVE"
+                  [class.btn--review]="status === TaskStatus.REVIEW"
+                  [class.btn--done]="status === TaskStatus.DONE"
+                  (click)="changeTaskStatus(task, status)"
+                >
+                  @switch (status) {
+                    @case (TaskStatus.PENDING) {
+                      Pendente
+                    }
+
+                    @case (TaskStatus.ACTIVE) {
+                      En curso
+                    }
+
+                    @case (TaskStatus.REVIEW) {
+                      Revisión
+                    }
+
+                    @case (TaskStatus.DONE) {
+                      Completado
+                    }
+                  }
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
+
+<app-modal
+  [open]="showFormModal"
+  [title]="selectedTask ? 'Editar tarefa' : 'Nueva tarefa'"
+  (closed)="closeModal()"
+>
+  <app-form [task]="selectedTask" (saved)="onTaskSaved()" (cancelled)="closeModal()"></app-form>
+</app-modal>
+
+<app-confirm-modal
+  [open]="showDeleteModal"
+  title="Eliminar task"
+  [message]="'¿Seguro que quieres eliminar a tarefa: ' + selectedDeleteTask?.title + '?'"
+  (confirmed)="confirmDeleteTask()"
+  (closed)="closeDeleteModal()"
+/>
