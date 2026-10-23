@@ -1,1 +1,82 @@
-<p>dashboard works!</p>
+<div class="card-grid">
+  <!-- Card: tareas -->
+  <section class="card">
+    <header class="card__header">
+      <h2 class="card__title">Tareas pendientes ({{ tasks.length }})</h2>
+
+      <button type="button" class="btn btn-g btn-sm" (click)="openAllTasks()">Ver todas</button>
+    </header>
+
+    <div class="card__body card__body--scrollable">
+      @if (loading) {
+        <p class="card__message">Cargando tareas...</p>
+      } @else if (error) {
+        <p class="card__message card__message--error">No se han podido cargar las tareas.</p>
+      } @else if (tasks.length === 0) {
+        <p class="card__message">No hay tareas pendientes.</p>
+      } @else {
+        <div class="card__list">
+          @for (task of tasks; track task.id) {
+            <div
+              class="card__item"
+              (click)="openTaskDetail(task.id)"
+              (keydown.enter)="openTaskDetail(task.id)"
+              (keydown.space)="$event.preventDefault(); openTaskDetail(task.id)"
+              tabindex="0"
+              role="button"
+            >
+              <div
+                class="card__indicator"
+                [ngClass]="task.endDate ? (task.endDate | dueDateStatus) : 'due-date--empty'"
+              ></div>
+
+              <div class="card__content">
+                <div class="card__item-title">
+                  {{ task.title }}
+                </div>
+
+                <div
+                  class="card__meta"
+                  [title]="task.endDate | date: 'EEEE d MMMM yyyy, HH:mm' : '' : 'gl-ES'"
+                  [ngClass]="task.endDate | dueDateStatus"
+                >
+                  @if (task.endDate) {
+                    @if ((task.endDate | dueDateStatus) === 'due-date--overdue') {
+                      <div class="item__property--warning">
+                        <app-icon name="warning"></app-icon>
+                        {{ task.endDate | dueDate }}
+                      </div>
+                    } @else {
+                      {{ task.endDate | dueDate }}
+                    }
+                  } @else {
+                    <span class="card__date card__date--empty"> Sin fecha </span>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Card: interacciones -->
+  <section class="card">
+    <header class="card__header">
+      <h2 class="card__title">Interacciones recientes</h2>
+    </header>
+
+    <div class="card__body">
+      <!-- Aquí va el contenido del componente de interacciones -->
+    </div>
+  </section>
+</div>
+
+<app-modal
+  [open]="showDetailModal"
+  [title]="selectedDetailTask?.title ? 'Tarefa: ' + selectedDetailTask?.title : 'Tarefa'"
+  (closed)="closeDetailModal()"
+>
+  <app-detail [task]="selectedDetailTask"></app-detail>
+</app-modal>
