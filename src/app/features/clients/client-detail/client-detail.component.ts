@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HeaderService } from '../../../layout/components/header/services/header.service';
@@ -68,7 +68,7 @@ export class ClientDetailComponent implements OnInit {
   readonly clientStatusBadge = CLIENT_STATUS_BADGE;
 
   /* Interactions tab counter */
-  interactionsCount = 0;
+  interactionsCount = signal(0);
 
   /* Task Tabs */
   private tasksService = inject(TasksService);

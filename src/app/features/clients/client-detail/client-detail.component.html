@@ -96,7 +96,7 @@
           [class.active]="activeTab === 'interactions'"
           (click)="changeTab('interactions')"
         >
-          Interaccións ({{ interactionsCount }})
+          Interaccións ({{ interactionsCount() }})
         </button>
 
         <button
@@ -121,7 +121,7 @@
           @case ('interactions') {
             <app-interactions
               [clientId]="client.id"
-              (interactionsCountChange)="interactionsCount = $event"
+              (interactionsCountChange)="interactionsCount.set($event)"
             ></app-interactions>
           }
 
