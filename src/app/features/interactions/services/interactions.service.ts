@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
+import { InteractionProposal } from '../models/interaction-proposal.model';
 import { Interaction } from '../models/interaction.model';
 
 @Injectable({
@@ -13,5 +14,9 @@ export class InteractionsService {
 
   getInteractionsListByClient(clientId: number): Observable<Interaction[]> {
     return this.http.get<Interaction[]>(`${this.api}/clients/${clientId}/interactions`);
+  }
+
+  getInteractionsProposalListByClient(clientId: number): Observable<InteractionProposal[]> {
+    return this.http.get<InteractionProposal[]>(`${this.api}/clients/${clientId}/proposals`);
   }
 }
