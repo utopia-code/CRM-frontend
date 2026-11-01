@@ -1,0 +1,6 @@
+export enum CampaignResult {
+  POSITIVE = 'POSITIVE',
+  PENDING = 'PENDING',
+  NEGATIVE = 'NEGATIVE',
+  NOT_CONTACTED = 'NOT_CONTACTED',
+}
