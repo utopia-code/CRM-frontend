@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, input, OnChanges, output, SimpleChanges } from '@angular/core';
+import { Component, inject, input, OnChanges, SimpleChanges } from '@angular/core';
 import { BadgeComponent } from '../../shared/components/badge/badge.component';
 import { IconComponent } from '../../shared/components/icon/icon.component';
 import { INTERACTION_CATEGORY_BADGE } from '../../shared/constants/interaction-category.badge.constant';
@@ -19,7 +19,6 @@ import { InteractionsService } from './services/interactions.service';
 })
 export class InteractionsComponent implements OnChanges {
   clientId = input.required<number>();
-  interactionsCountChange = output<number>();
 
   private interactionsService = inject(InteractionsService);
 
@@ -31,7 +30,7 @@ export class InteractionsComponent implements OnChanges {
   readonly interactionCategoryBadge = INTERACTION_CATEGORY_BADGE;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['clientId'] && this.clientId) {
+    if (changes['clientId']) {
       this.loadInteractions(this.clientId());
     }
   }
@@ -43,7 +42,6 @@ export class InteractionsComponent implements OnChanges {
     this.interactionsService.getInteractionsListByClient(clientId).subscribe({
       next: (data: Interaction[]) => {
         this.interactionsList = data;
-        this.interactionsCountChange.emit(data.length);
         this.loading = false;
       },
       error: (error: HttpErrorResponse) => {
