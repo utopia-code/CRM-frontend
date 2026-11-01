@@ -96,8 +96,7 @@
           [class.active]="activeTab === 'interactions'"
           (click)="changeTab('interactions')"
         >
-          <!-- Interaccións ({{ client.interactions?.length ?? 0 }}) -->
-          Interaccións (0)
+          Interaccións ({{ interactionsCount }})
         </button>
 
         <button
@@ -120,62 +119,13 @@
       <section class="content-tab">
         @switch (activeTab) {
           @case ('interactions') {
-            <!-- @if ((client.interactions?.length ?? 0) === 0) { -->
-            @if (!client) {
-              <div class="empty">Non hai interaccións rexistradas.</div>
-            } @else {
-              <table class="minimal-table">
-                <thead>
-                  <tr>
-                    <th>Data</th>
-                    <th>Tipo</th>
-                    <th>Asunto</th>
-                    <th>Finalización</th>
-                    <th>Notas</th>
-                    <th></th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <!-- @for (interaction of client.interactions; track interaction.id) {
-                    <tr>
-                      <td>{{ interaction.date }}</td>
-                      <td>{{ interaction.type }}</td>
-                      <td>{{ interaction.subject }}</td>
-                      <td>{{ interaction.subject }}</td>
-                      <td>{{ interaction.notes }}</td>
-                    </tr>
-                  } -->
-                  <tr>
-                    <td>25 de feb. de 2026, 09:26</td>
-                    <td>Email</td>
-                    <td>Lorem ipsum</td>
-                    <td>-</td>
-                    <td>Paso info de mais saaabor</td>
-                    <td>
-                      <div class="actions-list">
-                        <button
-                          class="btn btn--secondary btn--small btn--icon"
-                          (click)="editInteraction(client.id)"
-                        >
-                          <app-icon [name]="'edit'"></app-icon>
-                        </button>
-                        <button
-                          class="btn btn--delete btn--small btn--icon"
-                          (click)="openDeleteInteractionModal()"
-                        >
-                          <app-icon [name]="'delete'"></app-icon>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            }
+            <app-interactions
+              [clientId]="client.id"
+              (interactionsCountChange)="interactionsCount = $event"
+            ></app-interactions>
           }
 
           @case ('tasks') {
-            <!-- @if ((client.interactions?.length ?? 0) === 0) { -->
             @if (tasksList.length === 0) {
               <div class="empty">Non hai tarefas rexistradas.</div>
             } @else {
@@ -252,7 +202,7 @@
                           </button>
                           <button
                             class="btn btn--delete btn--small btn--icon"
-                            (click)="openDeleteModal(task)"
+                            (click)="openDeleteTaskModal(task)"
                           >
                             <app-icon [name]="'delete'"></app-icon>
                           </button>

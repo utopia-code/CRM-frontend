@@ -14,8 +14,10 @@ import { TASK_PRIORITY_BADGE } from '../../../shared/constants/task-priority.bad
 import { ClientStatusPipe } from '../../../shared/pipes/client-status.pipe';
 import { DueDateStatusPipe } from '../../../shared/pipes/due-date-status.pipe';
 import { DueDatePipe } from '../../../shared/pipes/due-date.pipe';
+import { InteractionTypePipe } from '../../../shared/pipes/interaction-type.pipe';
 import { ReminderDatePipe } from '../../../shared/pipes/reminder-date.pipe';
 import { TaskPriorityPipe } from '../../../shared/pipes/task-priority.pipe';
+import { InteractionsComponent } from '../../interactions/interactions.component';
 import { FormComponent } from '../../tasks/actions/form/form.component';
 import { DetailComponent } from '../../tasks/detail/detail.component';
 import { TaskStatus } from '../../tasks/enums/task-status.enum';
@@ -45,6 +47,8 @@ type ClientTab = 'interactions' | 'tasks' | 'proposals';
     ConfirmModalComponent,
     FormComponent,
     DetailComponent,
+    InteractionTypePipe,
+    InteractionsComponent,
   ],
   templateUrl: './client-detail.component.html',
   styleUrl: './client-detail.component.css',
@@ -63,6 +67,10 @@ export class ClientDetailComponent implements OnInit {
   /* Set colors of badge status */
   readonly clientStatusBadge = CLIENT_STATUS_BADGE;
 
+  /* Interactions tab counter */
+  interactionsCount = 0;
+
+  /* Task Tabs */
   private tasksService = inject(TasksService);
   tasksList: TaskList[] = [];
 
@@ -244,18 +252,9 @@ export class ClientDetailComponent implements OnInit {
   }
 
   /* Delete task */
-  openDeleteModal(task: TaskList): void {
+  openDeleteTaskModal(task: TaskList): void {
     this.selectedDeleteTask = task;
     this.showDeleteModal = true;
-  }
-
-  /* Interactions */
-  editInteraction(id: number): void {
-    console.log('edit interaction', id);
-  }
-
-  openDeleteInteractionModal(): void {
-    console.log('delete interaction');
   }
 
   /* Proposals */
