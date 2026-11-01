@@ -20,6 +20,10 @@
   overflow: hidden;
 }
 
+.card--full-width {
+  margin-top: 20px;
+}
+
 /* Elements: header */
 .card__header {
   padding: 14px 16px;
@@ -29,6 +33,17 @@
   justify-content: space-between;
   gap: 8px;
   border-bottom: 1px solid var(--b);
+}
+
+.card__header--actions {
+  display: flex;
+  gap: 5px;
+  align-items: center
+}
+
+.card__header--actions-label {
+  font-size: 0.72rem;
+  color: var(--t3);
 }
 
 .card__title {
@@ -88,25 +103,32 @@
   border-radius: 3px;
 }
 
-.card__indicator.due-date--overdue {
+.indicator-due-date--overdue {
   background-color: var(--ar);
 }
 
-.card__indicator.due-date--today {
+.indicator-due-date--today {
   background-color: var(--ao);
 }
 
-.card__indicator.due-date--soon {
+.indicator-due-date--soon {
   background-color: var(--ag);
 }
 
-.card__indicator.due-date--future {
+.indicator-due-date--future {
   background-color: var(--a);
 }
 
-.card__indicator.due-date--empty {
+.indicator-due-date--empty {
   background-color: var(--t3);
 }
+
+/* Content */
+.card__badge {
+  align-self: center;
+  flex: 0 0 70px;
+}
+
 
 /* Content */
 .card__content {
@@ -126,8 +148,8 @@
   flex-wrap: wrap;
   gap: 6px;
   margin-top: 4px;
-  /* color: var(--text-secondary, #777); */
   font-size: 0.75rem;
+  color: var(--t2);
 }
 
 .card__date--empty {
@@ -141,7 +163,7 @@
 }
 
 .card__status--overdue {
-  color: var(--ar, #d9534f);
+  color: var(--ar);
 }
 
 /* Feedback messages */
@@ -149,12 +171,12 @@
   padding: 20px 8px;
   margin: 0;
   text-align: center;
-  color: var(--text-secondary, #777);
+  color: var(--t2);
   font-size: 0.875rem;
 }
 
 .card__message--error {
-  color: var(--ar, #d9534f);
+  color: var(--ar);
 }
 
 /* Responsive */
@@ -162,4 +184,161 @@
   .card-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+
+
+/* Block: weekly-summary */
+.weekly-summary {
+  min-width: 0;
+}
+
+/* Elements: legend */
+.weekly-summary__legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.75rem;
+}
+
+.weekly-summary__legend-item {
+  white-space: nowrap;
+}
+
+.weekly-summary__legend-item--call {
+  color: var(--a);
+}
+
+.weekly-summary__legend-item--email {
+  color: var(--ag);
+}
+
+.weekly-summary__legend-item--meeting {
+  color: var(--ao);
+}
+
+/* Elements: body */
+.weekly-summary__body {
+  padding: 12px 14px;
+}
+
+/* Elements: grid */
+.weekly-summary__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+/* Elements: day */
+.weekly-summary__day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 8px 4px;
+  border: 1px solid transparent;
+  border-radius: var(--r);
+}
+
+/* Modifier: today */
+.weekly-summary__day--today {
+  background: var(--s2);
+  border-color: var(--a);
+}
+
+/* Elements: day name */
+.weekly-summary__day-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--t1);
+}
+
+/* Elements: day date */
+.weekly-summary__day-date {
+  font-size: 0.7rem;
+  color: var(--t3);
+}
+
+/* Elements: day items */
+.weekly-summary__day-items {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 50px;
+  margin-top: 5px;
+}
+
+/* Elements: dot */
+.weekly-summary__dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 3px 2px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Modifiers: interaction type */
+.weekly-summary__dot--call {
+  color: var(--a);
+  background: color-mix(in srgb, var(--a) 12%, transparent);
+}
+
+.weekly-summary__dot--email {
+  color: var(--ag);
+  background: color-mix(in srgb, var(--ag) 12%, transparent);
+}
+
+.weekly-summary__dot--meeting {
+  color: var(--ao);
+  background: color-mix(in srgb, var(--ao) 12%, transparent);
+}
+
+/* Elements: empty */
+.weekly-summary__empty {
+  font-size: 0.75rem;
+  color: var(--t3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .weekly-summary__grid {
+    gap: 3px;
+  }
+
+  .weekly-summary__day {
+    padding: 8px 2px;
+  }
+
+  .weekly-summary__dot {
+    font-size: 0.58rem;
+  }
+
+  .weekly-summary__legend {
+    gap: 5px;
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .weekly-summary__body {
+    overflow-x: auto;
+  }
+
+  .weekly-summary__grid {
+    min-width: 420px;
+  }
+}
+
+
+/* Various */
+.item__property--warning app-icon {
+  --icon-size: 12px;
 }

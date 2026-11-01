@@ -1,19 +1,19 @@
 <div class="card-grid">
-  <!-- Card: tareas -->
+  <!-- Card: Tasks -->
   <section class="card">
     <header class="card__header">
-      <h2 class="card__title">Tareas pendientes ({{ tasks.length }})</h2>
+      <h2 class="card__title">Tareas pendentes ({{ tasks.length }})</h2>
 
       <button type="button" class="btn btn-g btn-sm" (click)="openAllTasks()">Ver todas</button>
     </header>
 
     <div class="card__body card__body--scrollable">
-      @if (loading) {
-        <p class="card__message">Cargando tareas...</p>
-      } @else if (error) {
-        <p class="card__message card__message--error">No se han podido cargar las tareas.</p>
+      @if (loadingTasks) {
+        <p class="card__message">Cargando tarefas...</p>
+      } @else if (errorInteractions) {
+        <p class="card__message card__message--error">Non se puideron cargar-las tarefas.</p>
       } @else if (tasks.length === 0) {
-        <p class="card__message">No hay tareas pendientes.</p>
+        <p class="card__message">No hay tarefas pendentes &nbsp; 🎉</p>
       } @else {
         <div class="card__list">
           @for (task of tasks; track task.id) {
@@ -27,7 +27,11 @@
             >
               <div
                 class="card__indicator"
-                [ngClass]="task.endDate ? (task.endDate | dueDateStatus) : 'due-date--empty'"
+                [ngClass]="
+                  task.endDate
+                    ? 'indicator-' + (task.endDate | dueDateStatus)
+                    : 'indicator-due-date--empty'
+                "
               ></div>
 
               <div class="card__content">
@@ -35,22 +39,32 @@
                   {{ task.title }}
                 </div>
 
-                <div
-                  class="card__meta"
-                  [title]="task.endDate | date: 'EEEE d MMMM yyyy, HH:mm' : '' : 'gl-ES'"
-                  [ngClass]="task.endDate | dueDateStatus"
-                >
-                  @if (task.endDate) {
-                    @if ((task.endDate | dueDateStatus) === 'due-date--overdue') {
-                      <div class="item__property--warning">
-                        <app-icon name="warning"></app-icon>
+                <div class="card__meta">
+                  <div
+                    [title]="task.endDate | date: 'EEEE d MMMM yyyy, HH:mm' : '' : 'gl-ES'"
+                    [ngClass]="task.endDate | dueDateStatus"
+                  >
+                    @if (task.endDate) {
+                      @if ((task.endDate | dueDateStatus) === 'due-date--overdue') {
+                        <div class="item__property--warning">
+                          <app-icon name="warning"></app-icon>
+                          {{ task.endDate | dueDate }}
+                        </div>
+                      } @else {
                         {{ task.endDate | dueDate }}
-                      </div>
+                      }
                     } @else {
-                      {{ task.endDate | dueDate }}
+                      <span class="card__date card__date--empty"> Sin fecha </span>
                     }
-                  } @else {
-                    <span class="card__date card__date--empty"> Sin fecha </span>
+                  </div>
+                  <span>&middot;</span>
+                  <app-badge
+                    [text]="task.status | taskStatus"
+                    [variant]="taskStatusBadge[task.status]"
+                  ></app-badge>
+                  @if (task.organization) {
+                    <span>&middot;</span>
+                    <span>{{ task.organization }}</span>
                   }
                 </div>
               </div>
@@ -61,17 +75,169 @@
     </div>
   </section>
 
-  <!-- Card: interacciones -->
+  <!-- Card: interactions -->
   <section class="card">
     <header class="card__header">
-      <h2 class="card__title">Interacciones recientes</h2>
+      <h2 class="card__title">Interacciones recentes ({{ interactions.length }})</h2>
+
+      <button type="button" class="btn btn-g btn-sm" (click)="openAllClients()">
+        Ver clientes
+      </button>
     </header>
 
-    <div class="card__body">
-      <!-- Aquí va el contenido del componente de interacciones -->
+    <div class="card__body card__body--scrollable">
+      @if (loadingInteractions) {
+        <p class="card__message">Cargando interaccións...</p>
+      } @else if (errorInteractions) {
+        <p class="card__message card__message--error">Non se puideron cargar-las interaccións.</p>
+      } @else if (interactions.length === 0) {
+        <p class="card__message">Sen interaccións</p>
+      } @else {
+        <div class="card__list">
+          @for (interaction of interactions; track interaction.id) {
+            <div
+              class="card__item"
+              (click)="openClientInteraction(interaction.clientId)"
+              (keydown.enter)="openClientInteraction(interaction.clientId)"
+              (keydown.space)="$event.preventDefault(); openClientInteraction(interaction.clientId)"
+              tabindex="0"
+              role="button"
+            >
+              <div class="card__badge">
+                <app-badge
+                  [text]="
+                    getInteractionBadgeText(interaction) ?? (interaction.type | interactionType)
+                  "
+                  [variant]="getInteractionBadgeVariant(interaction)"
+                ></app-badge>
+              </div>
+
+              <div class="card__content">
+                <div class="card__item-title">
+                  {{ interaction.organization }}
+                </div>
+
+                <div class="card__meta">
+                  <div
+                    [title]="interaction.startDate | date: 'EEEE d MMMM yyyy, HH:mm' : '' : 'gl-ES'"
+                  >
+                    {{ interaction.startDate }}
+                  </div>
+
+                  <span>&middot;</span>
+                  <span>{{ interaction.subject }}</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
     </div>
   </section>
 </div>
+
+<!-- Card: inquiries -->
+<section class="card card--full-width">
+  <header class="card__header">
+    <h2 class="card__title">Consultas activas (0)</h2>
+
+    <div class="card__header--actions">
+      <span class="card__header--actions-label">Ordenar por:</span>
+      <button
+        class="btn btn-sm btn-g"
+        onclick="
+          dashConsOrd = 'data_consulta';
+          renderDashConsultas();
+        "
+      >
+        Data creación
+      </button>
+      <button
+        class="btn btn-sm btn-p"
+        onclick="
+          dashConsOrd = 'data_evento';
+          renderDashConsultas();
+        "
+      >
+        Tempo restante
+      </button>
+      <button class="btn btn-g btn-sm" onclick="go('consultas')">Ver todas</button>
+    </div>
+  </header>
+
+  <div class="card__body card__body--scrollable">
+    <p class="card__message">Sen interaccións</p>
+  </div>
+</section>
+
+<!-- Card: weekly interactions summary -->
+<section class="card card--full-width weekly-summary">
+  <header class="card__header">
+    <h2 class="card__title">Resumo semanal de interaccións</h2>
+
+    @if (!loadingWeeklyInteractions && !errorWeeklyInteractions && weeklyInteractions) {
+      <div class="weekly-summary__legend">
+        <span class="weekly-summary__legend-item weekly-summary__legend-item--call">
+          📞 {{ weeklyInteractions.totals.call }} Tel
+        </span>
+
+        <span class="weekly-summary__legend-item weekly-summary__legend-item--email">
+          ✉️ {{ weeklyInteractions.totals.email }} Email
+        </span>
+
+        <span class="weekly-summary__legend-item weekly-summary__legend-item--meeting">
+          🤝 {{ weeklyInteractions.totals.meeting }} Visitas
+        </span>
+      </div>
+    }
+  </header>
+
+  <div class="card__body weekly-summary__body">
+    @if (loadingWeeklyInteractions) {
+      <p class="card__message">Cargando resumen semanal...</p>
+    } @else if (errorWeeklyInteractions || !weeklyInteractions) {
+      <p class="card__message card__message--error">No se pudo cargar el resumen semanal.</p>
+    } @else {
+      <div class="weekly-summary__grid">
+        @for (day of weeklyInteractions.days; track day.date) {
+          <div class="weekly-summary__day" [class.weekly-summary__day--today]="day.isToday">
+            <div class="weekly-summary__day-name">
+              {{ day.dayName }}
+            </div>
+
+            <div class="weekly-summary__day-date">
+              {{ day.date | date: 'd/M' }}
+            </div>
+
+            <div class="weekly-summary__day-items">
+              @if (day.call > 0) {
+                <span class="weekly-summary__dot weekly-summary__dot--call">
+                  📞 {{ day.call }}
+                </span>
+              }
+
+              @if (day.email > 0) {
+                <span class="weekly-summary__dot weekly-summary__dot--email">
+                  ✉️ {{ day.email }}
+                </span>
+              }
+
+              @if (day.meeting > 0) {
+                <span class="weekly-summary__dot weekly-summary__dot--meeting">
+                  🤝 {{ day.meeting }}
+                </span>
+              }
+
+              @if (day.call === 0 && day.email === 0 && day.meeting === 0) {
+                <span class="weekly-summary__empty"> — </span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</section>
 
 <app-modal
   [open]="showDetailModal"
