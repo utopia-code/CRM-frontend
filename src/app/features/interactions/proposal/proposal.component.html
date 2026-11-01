@@ -1,1 +1,72 @@
-<p>proposal works!</p>
+@if (loading) {
+  <div class="empty">Cargando propostas...</div>
+} @else if (error) {
+  <div class="empty">Non foi posible cargar as propostas.</div>
+} @else if (interactionsProposalList.length === 0) {
+  <div class="empty">Non hai propostas rexistradas.</div>
+} @else {
+  <table class="minimal-table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Importe</th>
+        <th>Data</th>
+        <th>Estado</th>
+        <th>Tipo</th>
+        <th>Espectáculo</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (proposal of interactionsProposalList; track proposal.id) {
+        <tr>
+          <td class="item__property">
+            {{ proposal.subject }}
+          </td>
+          <td class="item__property">
+            {{ proposal.amount !== null ? proposal.amount + ' €' : '' }}
+          </td>
+          <td class="item__property">
+            {{ proposal.startDate | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+          <td class="item__property">
+            <app-badge
+              [text]="proposal.proposalStatus | proposalStatus"
+              [variant]="proposalStatusBadge[proposal.proposalStatus]"
+            ></app-badge>
+          </td>
+          <td>
+            <app-badge
+              [text]="proposal.type | interactionType"
+              [variant]="interactionTypeBadge[proposal.type]"
+            ></app-badge>
+          </td>
+          <td class="item__property">
+            @if (proposal.showName) {
+              {{ proposal.showName }}
+            }
+          </td>
+          <td>
+            <div class="actions-list">
+              <button
+                class="btn btn--secondary btn--small btn--icon"
+                (click)="editProposal(proposal.id)"
+                aria-label="Editar proposta"
+              >
+                <app-icon [name]="'edit'"></app-icon>
+              </button>
+              <button
+                class="btn btn--delete btn--small btn--icon"
+                (click)="openDeleteProposalModal(proposal.id)"
+                aria-label="Eliminar proposta"
+              >
+                <app-icon [name]="'delete'"></app-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
