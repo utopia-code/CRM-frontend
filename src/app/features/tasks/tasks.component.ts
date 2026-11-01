@@ -58,7 +58,7 @@ export class TasksComponent implements OnInit {
   private tasksService = inject(TasksService);
   tasksList: TaskList[] = [];
 
-  /* Set colors of badge status */
+  /* Set colors of badge priority */
   readonly taskPriorityBadge = TASK_PRIORITY_BADGE;
 
   /* Save Task status before change to DONE */
