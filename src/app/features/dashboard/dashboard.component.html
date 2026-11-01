@@ -121,7 +121,7 @@
                   <div
                     [title]="interaction.startDate | date: 'EEEE d MMMM yyyy, HH:mm' : '' : 'gl-ES'"
                   >
-                    {{ interaction.startDate }}
+                    {{ interaction.startDate | date: 'dd/MM/yyyy HH:mm' }}
                   </div>
 
                   <span>&middot;</span>
