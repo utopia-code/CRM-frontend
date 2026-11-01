@@ -1,1 +1,66 @@
-<p>interactions works!</p>
+@if (loading) {
+  <div class="empty">Cargando interaccións...</div>
+} @else if (error) {
+  <div class="empty">Non foi posible cargar as interaccións.</div>
+} @else if (interactionsList.length === 0) {
+  <div class="empty">Non hai interaccións rexistradas.</div>
+} @else {
+  <table class="minimal-table">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Categoría</th>
+        <th>Asunto</th>
+        <th>Notas</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (interaction of interactionsList; track interaction.id) {
+        <tr>
+          <td class="item__property">
+            {{ interaction.startDate | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
+          <td class="item__property">
+            <app-badge
+              [text]="interaction.type | interactionType"
+              [variant]="interactionTypeBadge[interaction.type]"
+            ></app-badge>
+          </td>
+          <td class="item__property">
+            @if (interaction.category === 'GENERAL') {
+              <span></span>
+            } @else {
+              <app-badge
+                [text]="getInteractionBadgeText(interaction)"
+                [variant]="interactionCategoryBadge[interaction.category] ?? 'bg'"
+              ></app-badge>
+            }
+          </td>
+          <td class="item__property">{{ interaction.subject }}</td>
+          <td class="item__property">{{ interaction.notes }}</td>
+          <td>
+            <div class="actions-list">
+              <button
+                class="btn btn--secondary btn--small btn--icon"
+                (click)="editInteraction(interaction.id)"
+                aria-label="Editar interacción"
+              >
+                <app-icon [name]="'edit'"></app-icon>
+              </button>
+              <button
+                class="btn btn--delete btn--small btn--icon"
+                (click)="openDeleteInteractionModal(interaction.id)"
+                aria-label="Eliminar interacción"
+              >
+                <app-icon [name]="'delete'"></app-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
