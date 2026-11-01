@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HeaderService } from '../../../layout/components/header/services/header.service';
@@ -18,6 +18,7 @@ import { InteractionTypePipe } from '../../../shared/pipes/interaction-type.pipe
 import { ReminderDatePipe } from '../../../shared/pipes/reminder-date.pipe';
 import { TaskPriorityPipe } from '../../../shared/pipes/task-priority.pipe';
 import { InteractionsComponent } from '../../interactions/interactions.component';
+import { ProposalComponent } from '../../interactions/proposal/proposal.component';
 import { FormComponent } from '../../tasks/actions/form/form.component';
 import { DetailComponent } from '../../tasks/detail/detail.component';
 import { TaskStatus } from '../../tasks/enums/task-status.enum';
@@ -49,6 +50,7 @@ type ClientTab = 'interactions' | 'tasks' | 'proposals';
     DetailComponent,
     InteractionTypePipe,
     InteractionsComponent,
+    ProposalComponent,
   ],
   templateUrl: './client-detail.component.html',
   styleUrl: './client-detail.component.css',
@@ -66,9 +68,6 @@ export class ClientDetailComponent implements OnInit {
 
   /* Set colors of badge status */
   readonly clientStatusBadge = CLIENT_STATUS_BADGE;
-
-  /* Interactions tab counter */
-  interactionsCount = signal(0);
 
   /* Task Tabs */
   private tasksService = inject(TasksService);

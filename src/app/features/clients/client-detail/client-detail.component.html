@@ -96,7 +96,7 @@
           [class.active]="activeTab === 'interactions'"
           (click)="changeTab('interactions')"
         >
-          Interaccións ({{ interactionsCount() }})
+          Interaccións ({{ client.summary.interactionsCount }})
         </button>
 
         <button
@@ -104,7 +104,7 @@
           [class.active]="activeTab === 'tasks'"
           (click)="changeTab('tasks')"
         >
-          Tarefas ({{ tasksList.length }})
+          Tarefas ( {{ client.summary.tasksCount }} )
         </button>
 
         <button
@@ -112,17 +112,14 @@
           [class.active]="activeTab === 'proposals'"
           (click)="changeTab('proposals')"
         >
-          Propostas (0)
+          Propostas ({{ client.summary.proposalsCount }})
         </button>
       </nav>
 
       <section class="content-tab">
         @switch (activeTab) {
           @case ('interactions') {
-            <app-interactions
-              [clientId]="client.id"
-              (interactionsCountChange)="interactionsCount.set($event)"
-            ></app-interactions>
+            <app-interactions [clientId]="client.id"></app-interactions>
           }
 
           @case ('tasks') {
@@ -216,55 +213,7 @@
           }
 
           @case ('proposals') {
-            <!-- @if ((client.interactions?.length ?? 0) === 0) { -->
-            @if (!client) {
-              <div class="empty">Non hai propostas rexistradas.</div>
-            } @else {
-              <table class="minimal-table">
-                <thead>
-                  <tr>
-                    <th>Título</th>
-                    <th>Importe</th>
-                    <th>Data</th>
-                    <th>Estado</th>
-                    <th></th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <!-- @for (interaction of client.interactions; track interaction.id) {
-                    <tr>
-                      <td>{{ interaction.date }}</td>
-                      <td>{{ interaction.type }}</td>
-                      <td>{{ interaction.subject }}</td>
-                      <td>{{ interaction.notes }}</td>
-                    </tr>
-                  } -->
-                  <tr>
-                    <td>Para o Castro pola REDE</td>
-                    <td>3000 €</td>
-                    <td>02 de mar. de 2026</td>
-                    <td>aberta</td>
-                    <td>
-                      <div class="actions-list">
-                        <button
-                          class="btn btn--secondary btn--small btn--icon"
-                          (click)="editProposal(client.id)"
-                        >
-                          <app-icon [name]="'edit'"></app-icon>
-                        </button>
-                        <button
-                          class="btn btn--delete btn--small btn--icon"
-                          (click)="openDeleteProposalModal()"
-                        >
-                          <app-icon [name]="'delete'"></app-icon>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            }
+            <app-proposal [clientId]="client.id"></app-proposal>
           }
         }
       </section>

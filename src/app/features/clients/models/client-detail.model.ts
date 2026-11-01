@@ -7,6 +7,10 @@ export interface ClientSummary {
   meetings: number;
   completedTasks: number;
   pendingTasks: number;
+
+  interactionsCount: number;
+  proposalsCount: number;
+  tasksCount: number;
 }
 
 export interface ClientDetail {
