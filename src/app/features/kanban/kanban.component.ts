@@ -3,11 +3,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
 import { HeaderService } from '../../layout/components/header/services/header.service';
 import { BadgeComponent } from '../../shared/components/badge/badge.component';
-import { IconComponent } from '../../shared/components/icon/icon.component';
 import { ConfirmModalComponent } from '../../shared/components/modal/confirm-modal/confirm-modal.component';
 import { ModalComponent } from '../../shared/components/modal/modal.component';
-import { DueDatePipe } from '../../shared/pipes/due-date.pipe';
-import { ReminderDatePipe } from '../../shared/pipes/reminder-date.pipe';
 import { FormComponent } from '../tasks/actions/form/form.component';
 import { TaskStatus } from '../tasks/enums/task-status.enum';
 import { TaskList } from '../tasks/models/task-list.model';
@@ -23,16 +20,7 @@ interface KanbanColumn {
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [
-    CommonModule,
-    DueDatePipe,
-    ReminderDatePipe,
-    BadgeComponent,
-    IconComponent,
-    ModalComponent,
-    ConfirmModalComponent,
-    FormComponent,
-  ],
+  imports: [CommonModule, BadgeComponent, ModalComponent, ConfirmModalComponent, FormComponent],
   templateUrl: './kanban.component.html',
   styleUrl: './kanban.component.css',
 })

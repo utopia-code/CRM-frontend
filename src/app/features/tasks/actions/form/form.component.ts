@@ -7,7 +7,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { IconComponent } from '../../../../shared/components/icon/icon.component';
 import { ClientName } from '../../../clients/models/clients-name.model';
 import { ClientsService } from '../../../clients/services/clients.service';
 import { CreateTaskDto } from '../../dtos/create-task.dto';
@@ -29,7 +28,7 @@ type TaskFormGroup = FormGroup<{
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, IconComponent],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.css',
 })
