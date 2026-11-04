@@ -8,6 +8,7 @@ export interface TaskList {
   status: TaskStatus;
   priority: TaskPriority;
   client: {
+    id: number;
     organization: string;
   } | null;
   endDate: Date | null;

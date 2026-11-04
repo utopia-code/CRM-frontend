@@ -75,10 +75,15 @@ export class TasksService {
   }
 
   // EDIT TASK
-  updateTask(id: number, taskData: UpdateTaskDto): Observable<Task> {
-    return this.http
-      .patch<Task>(`${this.api}/${id}`, taskData)
-      .pipe(switchMap((updatedTask) => this.refreshTasksList().pipe(map(() => updatedTask))));
+  updateTask(id: number, taskData: UpdateTaskDto, clientId?: number): Observable<Task> {
+    return this.http.patch<Task>(`${this.api}/${id}`, taskData).pipe(
+      switchMap((updatedTask) => {
+        const refresh$ =
+          clientId !== undefined ? this.getTasksListByClient(clientId) : this.refreshTasksList();
+
+        return refresh$.pipe(map(() => updatedTask));
+      }),
+    );
   }
 
   // DELETE TASK

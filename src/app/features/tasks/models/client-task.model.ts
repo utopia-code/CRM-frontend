@@ -8,6 +8,7 @@ export interface ClientTask {
   status: TaskStatus;
   priority: TaskPriority;
   client: {
+    id: number;
     organization: string;
   } | null;
   scheduleEntry: {

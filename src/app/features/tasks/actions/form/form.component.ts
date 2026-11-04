@@ -49,6 +49,7 @@ export class FormComponent implements OnInit {
   isSubmitting = false;
 
   clients: ClientName[] = [];
+  clientId = input<number | null>(null);
 
   form: TaskFormGroup = this.fb.group({
     title: this.fb.control('', Validators.required),
@@ -197,7 +198,7 @@ export class FormComponent implements OnInit {
     const task = this.task();
 
     if (task) {
-      this.tasksService.updateTask(task.id, dto).subscribe({
+      this.tasksService.updateTask(task.id, dto, this.clientId() ?? undefined).subscribe({
         next: () => {
           this.isSubmitting = false;
           this.saved.emit();
