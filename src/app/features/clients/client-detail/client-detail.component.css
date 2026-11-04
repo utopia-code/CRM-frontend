@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 16px;
-  height: calc(100vh - 128px);
+  height: calc(100vh - 100px);
   overflow: hidden;
 }
 
@@ -81,17 +81,4 @@
   flex: 1;
   overflow-y: auto;
   margin-top: 20px;
-}
-
-.actions-list {
-  display: flex;
-  gap: 2px;
-}
-
-.actions-list app-icon {
-  --icon-size: 15px;
-}
-
-.item__property--warning app-icon {
-  --icon-size: 12px;
 }
