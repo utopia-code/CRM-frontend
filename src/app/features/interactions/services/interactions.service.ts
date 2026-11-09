@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { InteractionProposal } from '../models/interaction-proposal.model';
-import { Interaction } from '../models/interaction.model';
+import { ClientProposalsResponseDto } from '../models/interaction-proposal.model';
+import { ClientInteractionsResponse } from '../models/interaction.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +12,13 @@ export class InteractionsService {
   private http = inject(HttpClient);
   private api = `${environment.api}/interactions`;
 
-  getInteractionsListByClient(clientId: number): Observable<Interaction[]> {
-    return this.http.get<Interaction[]>(`${this.api}/clients/${clientId}/interactions`);
+  getInteractionsListByClient(clientId: number): Observable<ClientInteractionsResponse> {
+    return this.http.get<ClientInteractionsResponse>(
+      `${this.api}/clients/${clientId}/interactions`,
+    );
   }
 
-  getInteractionsProposalListByClient(clientId: number): Observable<InteractionProposal[]> {
-    return this.http.get<InteractionProposal[]>(`${this.api}/clients/${clientId}/proposals`);
+  getInteractionsProposalListByClient(clientId: number): Observable<ClientProposalsResponseDto> {
+    return this.http.get<ClientProposalsResponseDto>(`${this.api}/clients/${clientId}/proposals`);
   }
 }

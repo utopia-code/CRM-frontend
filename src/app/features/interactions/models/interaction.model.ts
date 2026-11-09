@@ -10,3 +10,8 @@ export interface Interaction {
   startDate: Date;
   duration: number | null;
 }
+
+export interface ClientInteractionsResponse {
+  organization: string;
+  interactions: Interaction[];
+}

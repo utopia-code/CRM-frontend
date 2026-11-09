@@ -7,3 +7,8 @@ export interface InteractionProposal extends Interaction {
   showId: number | null;
   showName: string | null;
 }
+
+export interface ClientProposalsResponseDto {
+  organization: string;
+  proposals: InteractionProposal[];
+}
