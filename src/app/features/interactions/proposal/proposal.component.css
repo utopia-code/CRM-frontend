@@ -10,3 +10,12 @@
 .item__property--warning app-icon {
   --icon-size: 12px;
 }
+
+.item__property--detail {
+  cursor: pointer;
+  transition: color .2s ease;
+}
+
+.item__property--detail:hover {
+  color: var(--a);
+}

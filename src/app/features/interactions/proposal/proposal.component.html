@@ -21,7 +21,13 @@
     <tbody>
       @for (proposal of interactionsProposalList; track proposal.id) {
         <tr>
-          <td class="item__property">
+          <td
+            class="item__property item__property--detail"
+            (click)="openProposalDetail(proposal.id)"
+            role="button"
+            tabindex="0"
+            (keydown.enter)="openProposalDetail(proposal.id)"
+          >
             {{ proposal.subject }}
           </td>
           <td class="item__property">
@@ -70,3 +76,11 @@
     </tbody>
   </table>
 }
+
+<app-modal
+  [open]="showProposalDetailModal"
+  [title]="clientName ? 'Proposta: ' + clientName : 'Proposta'"
+  (closed)="closeProposalDetailModal()"
+>
+  <app-proposal-detail [proposal]="selectProposalDetail"></app-proposal-detail>
+</app-modal>
