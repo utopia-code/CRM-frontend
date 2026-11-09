@@ -1,1 +1,75 @@
-<p>proposal-detail works!</p>
+<div class="detail__card">
+  @if (proposal()?.subject; as subject) {
+    <div class="detail__section">
+      <div class="detail__label">Título</div>
+      <div class="detail__data">{{ subject }}</div>
+    </div>
+  }
+
+  @if (proposal()?.notes; as notes) {
+    <div class="detail__section">
+      <div class="detail__label">Notas</div>
+      <div class="detail__data">{{ notes }}</div>
+    </div>
+  }
+
+  @if (proposal()?.showName; as showName) {
+    <div class="detail__section">
+      <div class="detail__label">Espectáculo</div>
+      <div class="detail__data">{{ showName }}</div>
+    </div>
+  }
+
+  <div class="detail__section">
+    <div class="detail__grid">
+      <div class="detail__grid-item">
+        <div class="detail__label">Estado</div>
+        <div class="detail__data">
+          @if (proposal()?.proposalStatus; as proposalStatus) {
+            <app-badge
+              [text]="proposalStatus | proposalStatus"
+              [variant]="proposalStatusBadge[proposalStatus]"
+            ></app-badge>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+
+      <div class="detail__grid-item">
+        <div class="detail__label">Tipo</div>
+        <div class="detail__data">
+          @if (proposal()?.type; as type) {
+            <app-badge
+              [text]="type | interactionType"
+              [variant]="interactionTypeBadge[type]"
+            ></app-badge>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail__section">
+    <div class="detail__grid">
+      <div class="detail__grid-item">
+        <div class="detail__label">Data</div>
+        <div class="detail__data">
+          {{ proposal()?.startDate | date: 'dd/MM/yyyy HH:mm' }}
+        </div>
+      </div>
+      <div class="detail__grid-item">
+        <div class="detail__label">Importe</div>
+        <div class="detail__data">
+          @if (proposal()?.amount; as amount) {
+            <p>{{ amount }} €</p>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
