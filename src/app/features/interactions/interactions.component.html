@@ -8,10 +8,10 @@
   <table class="minimal-table">
     <thead>
       <tr>
-        <th>Data</th>
-        <th>Tipo</th>
-        <th>Categoría</th>
         <th>Asunto</th>
+        <th>Categoría</th>
+        <th>Tipo</th>
+        <th>Data</th>
         <th>Notas</th>
         <th></th>
       </tr>
@@ -20,14 +20,14 @@
     <tbody>
       @for (interaction of interactionsList; track interaction.id) {
         <tr>
-          <td class="item__property">
-            {{ interaction.startDate | date: 'dd/MM/yyyy HH:mm' }}
-          </td>
-          <td class="item__property">
-            <app-badge
-              [text]="interaction.type | interactionType"
-              [variant]="interactionTypeBadge[interaction.type]"
-            ></app-badge>
+          <td
+            class="item__property item__property--detail"
+            (click)="openInteractionDetail(interaction.id)"
+            role="button"
+            tabindex="0"
+            (keydown.enter)="openInteractionDetail(interaction.id)"
+          >
+            {{ interaction.subject }}
           </td>
           <td class="item__property">
             @if (interaction.category === 'GENERAL') {
@@ -39,7 +39,16 @@
               ></app-badge>
             }
           </td>
-          <td class="item__property">{{ interaction.subject }}</td>
+          <td class="item__property">
+            <app-badge
+              [text]="interaction.type | interactionType"
+              [variant]="interactionTypeBadge[interaction.type]"
+            ></app-badge>
+          </td>
+
+          <td class="item__property">
+            {{ interaction.startDate | date: 'dd/MM/yyyy HH:mm' }}
+          </td>
           <td class="item__property">{{ interaction.notes }}</td>
           <td>
             <div class="actions-list">
@@ -64,3 +73,11 @@
     </tbody>
   </table>
 }
+
+<app-modal
+  [open]="showInteractionDetailModal"
+  [title]="clientName ? 'Interacción: ' + clientName : 'Interacción'"
+  (closed)="closeInteractionDetailModal()"
+>
+  <app-interaction-detail [interaction]="selectedInteractionDetail"></app-interaction-detail>
+</app-modal>
