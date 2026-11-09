@@ -13,7 +13,7 @@ export class InteractionTypePipe implements PipeTransform {
       case InteractionType.EMAIL:
         return 'Email';
       case InteractionType.MEETING:
-        return 'Visitas';
+        return 'Visita';
       default:
         return type;
     }
