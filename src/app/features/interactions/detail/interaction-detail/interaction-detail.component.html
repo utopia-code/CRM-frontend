@@ -1,1 +1,68 @@
-<p>interaction-detail works!</p>
+<div class="detail__card">
+  @if (interaction()?.subject; as subject) {
+    <div class="detail__section">
+      <div class="detail__label">Asunto</div>
+      <div class="detail__data">{{ subject }}</div>
+    </div>
+  }
+
+  @if (interaction()?.notes; as notes) {
+    <div class="detail__section">
+      <div class="detail__label">Notas</div>
+      <div class="detail__data">{{ notes }}</div>
+    </div>
+  }
+
+  <div class="detail__section">
+    <div class="detail__grid">
+      <div class="detail__grid-item">
+        <div class="detail__label">Categoría</div>
+        <div class="detail__data">
+          @if (interaction()?.category; as category) {
+            <app-badge
+              [text]="getInteractionBadgeText(category)"
+              [variant]="interactionCategoryBadge[category] ?? 'bg'"
+            ></app-badge>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+
+      <div class="detail__grid-item">
+        <div class="detail__label">Tipo</div>
+        <div class="detail__data">
+          @if (interaction()?.type; as type) {
+            <app-badge
+              [text]="type | interactionType"
+              [variant]="interactionTypeBadge[type]"
+            ></app-badge>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail__section">
+    <div class="detail__grid">
+      <div class="detail__grid-item">
+        <div class="detail__label">Data</div>
+        <div class="detail__data">
+          {{ interaction()?.startDate | date: 'dd/MM/yyyy HH:mm' }}
+        </div>
+      </div>
+      <div class="detail__grid-item">
+        <div class="detail__label">Duración</div>
+        <div class="detail__data">
+          @if (interaction()?.duration; as duration) {
+            <p>{{ duration }} min.</p>
+          } @else {
+            <span>--</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

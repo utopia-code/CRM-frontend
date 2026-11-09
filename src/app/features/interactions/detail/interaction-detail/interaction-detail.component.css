@@ -1,0 +1,25 @@
+.detail__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail__section:not(:last-child) {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--b);
+}
+
+.detail__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.detail__label {
+  color: var(--t3);
+  font-weight: 600;
+  font-size: .67rem;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  padding-bottom: .3rem;
+}
